@@ -7,16 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <Compile Remove="DTOModels\Models\User\**" />
+    <Compile Remove="DTOModels\Response\User\**" />
+    <Compile Remove="MappingProfile\User\**" />
+    <Compile Remove="Services\Implementations\User\**" />
+    <Compile Remove="Services\Interfaces\IServices\User\**" />
+    <EmbeddedResource Remove="DTOModels\Models\User\**" />
+    <EmbeddedResource Remove="DTOModels\Response\User\**" />
+    <EmbeddedResource Remove="MappingProfile\User\**" />
+    <EmbeddedResource Remove="Services\Implementations\User\**" />
+    <EmbeddedResource Remove="Services\Interfaces\IServices\User\**" />
+    <None Remove="DTOModels\Models\User\**" />
+    <None Remove="DTOModels\Response\User\**" />
+    <None Remove="MappingProfile\User\**" />
+    <None Remove="Services\Implementations\User\**" />
+    <None Remove="Services\Interfaces\IServices\User\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOModels\Models\User\" />
-    <Folder Include="DTOModels\Response\User\" />
-    <Folder Include="MappingProfile\User\" />
-    <Folder Include="Services\Implementations\User\" />
-    <Folder Include="Services\Interfaces\IRepository\" />
-    <Folder Include="Services\Interfaces\IServices\User\" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

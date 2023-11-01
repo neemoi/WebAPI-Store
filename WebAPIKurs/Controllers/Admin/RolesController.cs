@@ -1,38 +1,43 @@
-﻿using Application.Services.Interfaces.IServices.Admin;
-using Microsoft.AspNetCore.Authorization;
+﻿using Application.DtoModels.Models.Pagination;
+using Application.DTOModels.Models.Admin.Roles;
+using Application.Services.Interfaces.IServices;
+using Application.Services.Interfaces.IServices.Admin;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPIKurs.Controllers.Admin
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private readonly IRoleService _adminRolesService;
+        private readonly IPaginationService _paginationService;
 
-        public RolesController(IRoleService adminRolesService)
+        public RolesController(IRoleService adminRolesService, IPaginationService paginationService)
         {
             _adminRolesService = adminRolesService;
+            _paginationService = paginationService;
         }
 
-        [HttpGet("api/Role")]
-        public async Task<IActionResult> GetAllRolesAsync()
+
+        [HttpGet("Role")]
+        public async Task<IActionResult> RolePagination([FromQuery] RoleQueryParametersDto parametersModel)
         {
-            return Ok(await _adminRolesService.GetAllRolesAsync());
+            return Ok(await _paginationService.GetRoleWithPaginationAsync(parametersModel)) ;
         }
 
-        [HttpPost("api/Role")]
+        [HttpPost("Role")]
         public async Task<IActionResult> CreateRoleAsync(string name)
         {
             return Ok(await _adminRolesService.CreateRoleAsync(name));
         }
 
-        //[HttpPut("api/Role/{id}")]
-        //public async Task<IActionResult> AssignUserRoleAsync(Guid id, string role)
-        //{
-        //    return Ok(await _adminRolesService.AssignUserRoleAsync(id, role));
-        //}
+        [HttpPut("Role")]
+        public async Task<IActionResult> EditRoleByIdAsync(EditRoleByIdDto editModel)
+        {
+            return Ok(await _adminRolesService.EditRoleByIdAsync(editModel));
+        }
 
-        [HttpDelete("api/Role/{id}")]
+        [HttpDelete("Role/{id}")]
         public async Task<IActionResult> DeleteRoleAsync(Guid id)
         {
             return Ok(await _adminRolesService.DeleteRoleAsync(id));

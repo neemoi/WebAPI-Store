@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Application.DTOModels.Models.Admin;
-using Application.DTOModels.Response.Admin;
 using WebAPIKurs;
+using Application.DTOModels.Models.Admin.Authorization;
+using Application.DTOModels.Response.Admin.Authorization;
 
 namespace Application.MappingProfile.Admin
 {
@@ -9,7 +9,6 @@ namespace Application.MappingProfile.Admin
     {
         public MappingAccount()
         {
-            //Account
             CreateMap<RegisterDto, User>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Name));
             CreateMap<User, LoginResponseDto>();

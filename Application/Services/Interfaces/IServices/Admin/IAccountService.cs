@@ -1,5 +1,5 @@
-﻿using Application.DTOModels.Models.Admin;
-using Application.DTOModels.Response.Admin;
+﻿using Application.DTOModels.Models.Admin.Authorization;
+using Application.DTOModels.Response.Admin.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Services.Interfaces.IServices.Admin

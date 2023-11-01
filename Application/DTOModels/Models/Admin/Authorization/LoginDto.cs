@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.DTOModels.Models.Admin
+namespace Application.DTOModels.Models.Admin.Authorization
 {
     public class LoginDto
     {

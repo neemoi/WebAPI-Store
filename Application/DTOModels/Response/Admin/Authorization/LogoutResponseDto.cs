@@ -1,6 +1,6 @@
-﻿namespace Application.DTOModels.Response.Admin
+﻿namespace Application.DTOModels.Response.Admin.Authorization
 {
-    public class RegisterResponseDto
+    public class LogoutResponseDto
     {
         public string? Id { get; set; }
 

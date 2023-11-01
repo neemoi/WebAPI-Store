@@ -1,4 +1,5 @@
 ﻿using Application.DtoModels.Response.Admin;
+using Application.DTOModels.Models.Admin.Roles;
 
 namespace Application.Services.Interfaces.IServices.Admin
 {
@@ -6,10 +7,12 @@ namespace Application.Services.Interfaces.IServices.Admin
     {
         Task<List<RoleResponseDto>> GetAllRolesAsync();
 
-        //Task<RoleResponseDto> AssignUserRoleAsync(Guid userId, string roleName);
+        Task<RoleResponseDto> EditRoleByIdAsync(EditRoleByIdDto editModel);
 
         Task<RoleResponseDto> CreateRoleAsync(string roleName);
 
         Task<RoleResponseDto> DeleteRoleAsync(Guid roleId);
+
+        Task<UserResponseDto> EditUserRoleAsync(EditUserRoleDto editUser);
     }
 }

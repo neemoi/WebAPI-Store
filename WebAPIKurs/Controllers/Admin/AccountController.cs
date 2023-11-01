@@ -1,12 +1,10 @@
-﻿using Application.DTOModels.Models.Admin;
+﻿using Application.DTOModels.Models.Admin.Authorization;
 using Application.Services.Interfaces.IServices.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.User
+namespace WebAPIKurs.Controllers.Admin
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
