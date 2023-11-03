@@ -9,11 +9,11 @@ namespace Application.MappingProfile.Admin
     {
         public MappingAccount()
         {
-            CreateMap<RegisterDto, User>()
+            CreateMap<RegisterDto, CustomUser>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Name));
-            CreateMap<User, LoginResponseDto>();
-            CreateMap<User, RegisterResponseDto>();
-            CreateMap<User, LogoutResponseDto>();
+            CreateMap<CustomUser, LoginResponseDto>();
+            CreateMap<CustomUser, RegisterResponseDto>();
+            CreateMap<CustomUser, LogoutResponseDto>();
         }
     }
 }

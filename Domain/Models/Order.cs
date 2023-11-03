@@ -16,5 +16,5 @@ public partial class Order
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual User User { get; set; } = null!;
+    public virtual CustomUser User { get; set; } = null!;
 }

@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Persistance\Persistance.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\User\" />
-  </ItemGroup>
-
 </Project>

@@ -19,25 +19,25 @@ namespace WebAPIKurs.Controllers.Admin
         }
 
 
-        [HttpGet("Role")]
+        [HttpGet("Admin/Role")]
         public async Task<IActionResult> RolePagination([FromQuery] RoleQueryParametersDto parametersModel)
         {
             return Ok(await _paginationService.GetRoleWithPaginationAsync(parametersModel)) ;
         }
 
-        [HttpPost("Role")]
+        [HttpPost("Admin/Role")]
         public async Task<IActionResult> CreateRoleAsync(string name)
         {
             return Ok(await _adminRolesService.CreateRoleAsync(name));
         }
 
-        [HttpPut("Role")]
+        [HttpPut("Admin/Role")]
         public async Task<IActionResult> EditRoleByIdAsync(EditRoleByIdDto editModel)
         {
             return Ok(await _adminRolesService.EditRoleByIdAsync(editModel));
         }
 
-        [HttpDelete("Role/{id}")]
+        [HttpDelete("Admin/Role/{id}")]
         public async Task<IActionResult> DeleteRoleAsync(Guid id)
         {
             return Ok(await _adminRolesService.DeleteRoleAsync(id));

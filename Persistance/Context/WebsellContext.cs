@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPIKurs;
 
-public partial class WebsellContext : IdentityDbContext<User>
+public partial class WebsellContext : IdentityDbContext<CustomUser>
 {
     public WebsellContext() { }
 
@@ -122,7 +122,7 @@ public partial class WebsellContext : IdentityDbContext<User>
             entity.Property(e => e.Price).HasPrecision(10, 2);
         });
 
-        modelBuilder.Entity<User>(entity =>
+        modelBuilder.Entity<CustomUser>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
@@ -130,6 +130,9 @@ public partial class WebsellContext : IdentityDbContext<User>
 
             entity.Property(e => e.Name).HasMaxLength(15);
             entity.Property(e => e.Password).HasMaxLength(15);
+            entity.Property(e => e.Address).HasMaxLength(30);
+            entity.Property(e => e.State).HasMaxLength(20);
+            entity.Property(e => e.City).HasMaxLength(30);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPIKurs.Controllers.Admin
 {
-    public class AccountController : ControllerBase
+    public class AuthorizationController : ControllerBase
     {
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        public AuthorizationController(IAccountService accountService)
         {
             _accountService = accountService;
         }

@@ -1,5 +1,7 @@
 ﻿using Application.DtoModels.Models.Pagination;
 using Application.DtoModels.Response.Admin;
+using Application.DTOModels.Models.Admin.Pagination;
+using Application.DTOModels.Response.Admin;
 using Application.Services.Interfaces.IServices;
 using Application.Services.UnitOfWork;
 using AutoMapper;
@@ -61,6 +63,36 @@ namespace Application.Services.Implementations
                 }).ToList();
 
                 return roleResponseDto;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "Error fetching role with pagination")
+                {
+                    throw new Exception("Error fetching roles", ex);
+                }
+                else
+                {
+                    throw new Exception("Internal Server Error", ex);
+                }
+            }
+        }
+
+        public async Task<IEnumerable<ProductResponseDto>> GetProductWithPaginationAsync(ProductQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var result = await _unitOfWork.PaginationRepository.GetProductsWithPaginationAsync(parametersModel);
+
+
+                var productResponseDto = result.Select(product =>
+                {
+                    var productResponseDto = _mapper.Map<ProductResponseDto>(product);
+
+                    return productResponseDto;
+
+                }).ToList();
+
+                return productResponseDto;
             }
             catch (Exception ex)
             {

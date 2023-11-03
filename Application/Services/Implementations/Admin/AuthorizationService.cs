@@ -9,14 +9,14 @@ using WebAPIKurs;
 
 namespace Application.Services.Implementations.Admin
 {
-    public class AccountService : IAccountService
+    public class AuthorizationService : IAccountService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<CustomUser> _userManager;
+        private readonly SignInManager<CustomUser> _signInManager;
+        private readonly ILogger<AuthorizationService> _logger;
         private readonly IMapper _mapper;
-        private readonly ILogger<AccountService> _logger;
 
-        public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, ILogger<AccountService> logger)
+        public AuthorizationService(UserManager<CustomUser> userManager, SignInManager<CustomUser> signInManager, IMapper mapper, ILogger<AuthorizationService> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -51,7 +51,7 @@ namespace Application.Services.Implementations.Admin
 
         public async Task<RegisterResponseDto> RegisterAsync(RegisterDto model)
         {
-            var user = _mapper.Map<User>(model);
+            var user = _mapper.Map<CustomUser>(model);
 
             var emailAlreadyExists = await _userManager.FindByEmailAsync(user.Email);
 

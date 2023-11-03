@@ -1,12 +1,13 @@
 ﻿using Application.DtoModels.Models.Pagination;
 using Application.DtoModels.Response.Admin;
-using Application.Services.Interfaces.IRepository;
+using Application.DTOModels.Models.Admin.Pagination;
+using Application.DTOModels.Response.Admin;
+using Application.Services.Interfaces.IRepository.Admin;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using WebAPIKurs;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Persistance.Repository.Admin
 {
@@ -51,20 +52,29 @@ namespace Persistance.Repository.Admin
                 {
                     usersQuery = usersQuery.Where(u => u.User.Id.Contains(parametersModel.SearchUserId));
                 }
-
                 if (!string.IsNullOrEmpty(parametersModel.SearchUserName))
                 {
                     usersQuery = usersQuery.Where(u => u.User.UserName.Contains(parametersModel.SearchUserName));
                 }
-
                 if (!string.IsNullOrEmpty(parametersModel.SearchEmail))
                 {
                     usersQuery = usersQuery.Where(u => u.User.Email.Contains(parametersModel.SearchEmail));
                 }
-
                 if (!string.IsNullOrEmpty(parametersModel.SearchPhoneNumber))
                 {
                     usersQuery = usersQuery.Where(u => u.User.PhoneNumber.Contains(parametersModel.SearchPhoneNumber));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.SearchState))
+                {
+                    usersQuery = usersQuery.Where(u => u.User.State.Contains(parametersModel.SearchState));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.SearchCity))
+                {
+                    usersQuery = usersQuery.Where(u => u.User.City.Contains(parametersModel.SearchCity));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.SearchAddress))
+                {
+                    usersQuery = usersQuery.Where(u => u.User.Address.Contains(parametersModel.SearchAddress));
                 }
 
                 var users = await usersQuery
@@ -101,11 +111,19 @@ namespace Persistance.Repository.Admin
         {
             var roles = _roleManager.Roles.AsQueryable();
 
-            parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1); //changing the case of the first letter to the uppercase
+            if (!string.IsNullOrEmpty(parametersModel.SortField))
+            {
+                parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1); //changing the case of the first letter to the uppercase
 
-            roles = parametersModel.SortOrder.ToUpper() == "desc"
-                    ? roles.OrderByDescending(u => EF.Property<object>(u, parametersModel.SortField))
-                    : roles.OrderBy(u => EF.Property<object>(u, parametersModel.SortField));
+                if (parametersModel.SortOrder.ToUpper() == "DESC")
+                {
+                    roles = roles.OrderByDescending(r => r.Name);
+                }
+                else
+                {
+                    roles = roles.OrderBy(r => r.Name);
+                }
+            }
 
             if (!string.IsNullOrEmpty(parametersModel.IdRole))
             {
@@ -124,5 +142,63 @@ namespace Persistance.Repository.Admin
 
             return rolesPage;
         }
+
+        public async Task<IEnumerable<ProductResponseDto>> GetProductsWithPaginationAsync(ProductQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var productsQuery = _websellContext.Products.AsQueryable();
+
+                if (!string.IsNullOrEmpty(parametersModel.SortField))
+                {
+                    parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1);
+
+                    productsQuery = parametersModel.SortOrder.ToUpper() == "DESC"
+                        ? productsQuery.OrderByDescending(p => EF.Property<object>(p, parametersModel.SortField))
+                        : productsQuery.OrderBy(p => EF.Property<object>(p, parametersModel.SortField));
+                }
+
+                if (!string.IsNullOrEmpty(parametersModel.SearchProductId))
+                {
+                    productsQuery = productsQuery.Where(p => p.Id.ToString().Contains(parametersModel.SearchProductId));
+                }
+
+                if (!string.IsNullOrEmpty(parametersModel.SearchProductName))
+                {
+                    productsQuery = productsQuery.Where(p => p.Name.Contains(parametersModel.SearchProductName));
+                }
+
+                if (!string.IsNullOrEmpty(parametersModel.SearchProductDescription))
+                {
+                    productsQuery = productsQuery.Where(p => p.Description.Contains(parametersModel.SearchProductDescription));
+                }
+
+                if (!string.IsNullOrEmpty(parametersModel.SearchProductPrice))
+                {
+                    productsQuery = productsQuery.Where(p => p.Price.ToString().Contains(parametersModel.SearchProductPrice));
+                }
+
+                var products = await productsQuery
+                    .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
+                    .Take(parametersModel.PageSize)
+                    .ToListAsync();
+
+                var productResponseDtos = products.Select(product => _mapper.Map<ProductResponseDto>(product)).ToList();
+
+                return productResponseDtos;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "Error fetching products with pagination")
+                {
+                    throw new Exception("Error fetching products", ex);
+                }
+                else
+                {
+                    throw new Exception("Internal Server Error", ex);
+                }
+            }
+        }
+
     }
 }

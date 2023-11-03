@@ -13,10 +13,10 @@ namespace Application.Services.Implementations.Admin
     public class RoleService : IRoleService
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<CustomUser> _userManager;
         private readonly IMapper _mapper;
 
-        public RoleService(RoleManager<IdentityRole> roleManager, IMapper mapper, UserManager<User> userManager)
+        public RoleService(RoleManager<IdentityRole> roleManager, IMapper mapper, UserManager<CustomUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;

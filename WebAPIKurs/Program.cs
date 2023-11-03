@@ -1,9 +1,11 @@
 using Application.MappingProfile.Admin;
 using Application.Services.Implementations;
 using Application.Services.Implementations.Admin;
-using Application.Services.Interfaces.IRepository;
+using Application.Services.Implementations.User;
+using Application.Services.Interfaces.IRepository.Admin;
 using Application.Services.Interfaces.IServices;
 using Application.Services.Interfaces.IServices.Admin;
+using Application.Services.Interfaces.IServices.User;
 using Application.Services.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,24 +29,31 @@ namespace WebAPIKurs
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddHttpContextAccessor();
 
             //Registering Scoped Services
-            builder.Services.AddAutoMapper(typeof(MappingAccount), typeof(MappingRoles), typeof(MappingUsers));
+            builder.Services.AddAutoMapper(typeof(MappingAccount), typeof(MappingRoles), typeof(MappingUsers), 
+                typeof(MappingProducts), typeof(MappingPayments));
 
             //Registering Scoped Services
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<UserManager<User>>();
-            builder.Services.AddScoped<UserManager<User>, UserManager<User>>();
-            builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<UserManager<CustomUser>>();
+            builder.Services.AddScoped<UserManager<CustomUser>, UserManager<CustomUser>>();
+            builder.Services.AddScoped<IAccountService, AuthorizationService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IProfileService, ProfileService>();
             builder.Services.AddScoped<IPaginationService, PaginationService>();
-            
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
+
             //Registering Scoped Repositories
             builder.Services.AddScoped<IPaginationRepository, PaginationRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IPaymentsRepository, PaymentRepository>();
 
             //Identity Configuration
-            builder.Services.AddIdentity<User, IdentityRole>()
+            builder.Services.AddIdentity<CustomUser, IdentityRole>()
             .AddEntityFrameworkStores<WebsellContext>()
             .AddRoles<IdentityRole>();
 

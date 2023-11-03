@@ -9,7 +9,7 @@ namespace Application.MappingProfile.Admin
     {
         public MappingRoles()
         {
-            CreateMap<RoleResponseDto, User>();
+            CreateMap<RoleResponseDto, CustomUser>();
             CreateMap<IdentityRole, RoleResponseDto>();
         }
     }

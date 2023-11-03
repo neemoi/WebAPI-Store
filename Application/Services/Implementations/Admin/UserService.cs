@@ -2,21 +2,18 @@
 using Application.DtoModels.Response.Admin;
 using Application.Services.Interfaces.IServices.Admin;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
 using WebAPIKurs;
 
 namespace Application.Services.Implementations.Admin
 {
     public class UserService : IUserService
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<CustomUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
+        public UserService(UserManager<CustomUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;

@@ -9,8 +9,8 @@ namespace Application.MappingProfile.Admin
     {
         public MappingUsers()
         {
-            CreateMap<UserDto, User>();
-            CreateMap<User, UserResponseDto>();
+            CreateMap<UserDto, CustomUser>();
+            CreateMap<CustomUser, UserResponseDto>();
         }
     }
 }
