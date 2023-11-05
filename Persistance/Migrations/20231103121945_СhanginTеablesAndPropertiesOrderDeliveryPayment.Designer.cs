@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPIKurs;
 
@@ -10,9 +11,11 @@ using WebAPIKurs;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(WebsellContext))]
-    partial class WebsellContextModelSnapshot : ModelSnapshot
+    [Migration("20231103121945_СhanginTеablesAndPropertiesOrderDeliveryPayment")]
+    partial class СhanginTеablesAndPropertiesOrderDeliveryPayment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,6 +217,9 @@ namespace Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
@@ -224,6 +230,8 @@ namespace Persistance.Migrations
 
                     b.HasKey("Id")
                         .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "OrderId" }, "OrderId");
 
                     b.ToTable("deliveries", (string)null);
                 });
@@ -293,12 +301,18 @@ namespace Persistance.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("enum('cash','card','e-money')");
 
                     b.HasKey("Id")
                         .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "OrderId" }, "OrderId")
+                        .HasDatabaseName("OrderId1");
 
                     b.ToTable("payments", (string)null);
                 });

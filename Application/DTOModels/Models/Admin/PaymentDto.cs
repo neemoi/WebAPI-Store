@@ -8,9 +8,6 @@ namespace Application.DTOModels.Models.Admin
         public int Id { get; set; }
 
         [Required]
-        public int OrderId { get; set; }
-
-        [Required]
         public string Type { get; set; } = null!;
 
         [Required]

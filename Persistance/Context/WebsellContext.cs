@@ -45,15 +45,8 @@ public partial class WebsellContext : IdentityDbContext<CustomUser>
 
             entity.ToTable("deliveries");
 
-            entity.HasIndex(e => e.OrderId, "OrderId");
-
             entity.Property(e => e.Price).HasPrecision(10, 2);
             entity.Property(e => e.Type).HasColumnType("enum('pickup','courier','mail')");
-
-            entity.HasOne(d => d.Order).WithMany(p => p.Deliveries)
-                .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("deliveries_ibfk_1");
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -71,6 +64,16 @@ public partial class WebsellContext : IdentityDbContext<CustomUser>
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("orders_ibfk_1");
+
+            entity.HasOne(d => d.Deliveries).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.DeliverId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_delivery_ibfk");
+
+            entity.HasOne(d => d.Payments).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.PaymentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_payment_ibfk");
         });
 
         modelBuilder.Entity<Orderitem>(entity =>
@@ -100,15 +103,8 @@ public partial class WebsellContext : IdentityDbContext<CustomUser>
 
             entity.ToTable("payments");
 
-            entity.HasIndex(e => e.OrderId, "OrderId");
-
             entity.Property(e => e.Amount).HasPrecision(10, 2);
             entity.Property(e => e.Type).HasColumnType("enum('cash','card','e-money')");
-
-            entity.HasOne(d => d.Order).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("payments_ibfk_1");
         });
 
         modelBuilder.Entity<Product>(entity =>

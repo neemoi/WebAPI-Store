@@ -5,8 +5,6 @@ namespace Application.Services.Interfaces.IServices.Admin
 {
     public interface IRoleService
     {
-        Task<List<RoleResponseDto>> GetAllRolesAsync();
-
         Task<RoleResponseDto> EditRoleByIdAsync(EditRoleByIdDto editModel);
 
         Task<RoleResponseDto> CreateRoleAsync(string roleName);

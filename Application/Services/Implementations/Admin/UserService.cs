@@ -26,9 +26,14 @@ namespace Application.Services.Implementations.Admin
 
             var user = await _userManager.FindByIdAsync(userId.ToString());
 
-            if (userId.ToString() == adminId || user == null)
+            if (userId.ToString() == adminId)
             {
-                throw new NotImplementedException();
+                if (user == null)
+                {
+                    throw new Exception($"User not found");
+                }
+
+                throw new Exception($"Error. You are trying to remove role the main administrator");
             }
 
             var roleNames = await _userManager.GetRolesAsync(user);
@@ -37,10 +42,12 @@ namespace Application.Services.Implementations.Admin
             {
                 var role = await _roleManager.FindByNameAsync(roleName);
 
-                if (role != null)
+                if (role == null)
                 {
-                    await _userManager.RemoveFromRoleAsync(user, role.Name);
+                    throw new Exception($"Deletion Error. Role user not found");
                 }
+
+                await _userManager.RemoveFromRoleAsync(user, role.Name);
             }
 
             var result = await _userManager.DeleteAsync(user);
@@ -50,13 +57,13 @@ namespace Application.Services.Implementations.Admin
                 string userRole = roleNames.FirstOrDefault();
 
                 var userResponseDto = _mapper.Map<UserResponseDto>(user);
-                    userResponseDto.Role = userRole;
+                userResponseDto.Role = userRole;
 
                 return userResponseDto;
             }
             else
             {
-                throw new NotImplementedException();
+                throw new Exception($"Deletion Error. Role user not found");
             }
         }
 
@@ -82,7 +89,7 @@ namespace Application.Services.Implementations.Admin
             }
             else
             {
-                throw new NotImplementedException();
+                throw new Exception($"Internal Server Error");
             }
         }
     }

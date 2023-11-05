@@ -35,7 +35,7 @@ namespace Application.Services.Implementations.Admin
             }
             else
             {
-                throw new NotImplementedException();
+                throw new Exception($"Internal Server Error" + string.Join(", ", result.Errors));
             }
         }
 
@@ -45,54 +45,47 @@ namespace Application.Services.Implementations.Admin
 
             IdentityResult result = await _roleManager.DeleteAsync(role);
 
-            if (result.Succeeded && role != null)
+            if (role == null)
+            {
+                throw new Exception($"Role not found. Role == null");
+            }
+
+            if (result.Succeeded)
             {
                 return _mapper.Map<RoleResponseDto>(role);
             }
             else
             {
-                throw new NotImplementedException();
+                throw new Exception($"Internal Server Error" + string.Join(", ", result.Errors));
             }
-        }
-
-        public async Task<List<RoleResponseDto>> GetAllRolesAsync()
-        {
-            List<IdentityRole> roles = await _roleManager.Roles.ToListAsync();
-
-            var result = roles.Select(_mapper.Map<RoleResponseDto>).ToList();
-
-            return result;
         }
 
         public async Task<RoleResponseDto> EditRoleByIdAsync(EditRoleByIdDto editModel)
         {
             var role = await _roleManager.FindByIdAsync(editModel.Id);
 
-            if (role != null)
+            if (role == null)
             {
-                role.Name = editModel.Name;
+                throw new Exception("Role not found. Role == null");
+            }
 
-                var result = await _roleManager.UpdateAsync(role);
+            role.Name = editModel.Name;
 
-                if (result.Succeeded)
-                {
-                    var updatedRole = await _roleManager.FindByIdAsync(editModel.Id);
+            var result = await _roleManager.UpdateAsync(role);
 
-                    var roleResponseDto = _mapper.Map<RoleResponseDto>(updatedRole);
+            if (result.Succeeded)
+            {
+                var updatedRole = await _roleManager.FindByIdAsync(editModel.Id);
 
-                    return roleResponseDto;
-                }
-                else
-                {
-                    throw new Exception("Error updating role: " + string.Join(", ", result.Errors));
-                }
+                var roleResponseDto = _mapper.Map<RoleResponseDto>(updatedRole);
+
+                return roleResponseDto;
             }
             else
             {
-                throw new Exception("Role not found");
+                throw new Exception($"Internal Server Error" + string.Join(", ", result.Errors));
             }
         }
-
 
         public async Task<UserResponseDto> EditUserRoleAsync(EditUserRoleDto modelUser)
         {
