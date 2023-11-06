@@ -1,14 +1,13 @@
-﻿using Application.DTOModels.Models.Admin;
+﻿using Application.DTOModels.Models.Admin.Payment;
 using Application.DTOModels.Response.Admin;
-using WebAPIKurs;
 
 namespace Application.Services.Interfaces.IServices.Admin
 {
     public interface IPaymentService
     {
-        Task<PaymentResponseDto> CreatePaymentAsync(Payment paymentModel);
+        Task<PaymentResponseDto> CreatePaymentAsync(PaymentCreateDto paymentModel);
 
-        Task<PaymentResponseDto> UpdatePaymentAsync(PaymentDto paymentModel);
+        Task<PaymentResponseDto> EditPaymentAsync(PaymentEditDto paymentModel);
 
         Task<PaymentResponseDto> DeletePaymentAsync(int paymentId);
     }

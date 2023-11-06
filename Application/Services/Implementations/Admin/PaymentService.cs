@@ -1,4 +1,4 @@
-﻿using Application.DTOModels.Models.Admin;
+﻿using Application.DTOModels.Models.Admin.Payment;
 using Application.DTOModels.Response.Admin;
 using Application.Services.Interfaces.IServices.Admin;
 using Application.Services.UnitOfWork;
@@ -18,7 +18,7 @@ namespace Application.Services.Implementations.Admin
             _mapper = mapper;
         }
 
-        public async Task<PaymentResponseDto> CreatePaymentAsync(Payment paymentModel)
+        public async Task<PaymentResponseDto> CreatePaymentAsync(PaymentCreateDto paymentModel)
         {
             var payment = _mapper.Map<Payment>(paymentModel);
             
@@ -34,9 +34,9 @@ namespace Application.Services.Implementations.Admin
             return _mapper.Map<PaymentResponseDto>(result);
         }
 
-        public async Task<PaymentResponseDto> UpdatePaymentAsync(PaymentDto paymentModel)
+        public async Task<PaymentResponseDto> EditPaymentAsync(PaymentEditDto paymentModel)
         {
-            var result = await _unitOfWork.PaymentsRepository.UpdatePaymentAsync(paymentModel);
+            var result = await _unitOfWork.PaymentsRepository.EditPaymentAsync(paymentModel);
 
             await _unitOfWork.SaveChangesAsync();
 

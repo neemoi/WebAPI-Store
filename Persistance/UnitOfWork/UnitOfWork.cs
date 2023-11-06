@@ -13,13 +13,16 @@ namespace Persistance.UnitOfWork
 
         public IPaymentsRepository PaymentsRepository { get; }
 
+        public ICategoryRepository CategoryRepository { get; }
+
         private readonly WebsellContext _websellContext;
 
-        public UnitOfWork(IPaginationRepository paginationRepository, IProductRepository productRepository, IPaymentsRepository paymentsRepository, WebsellContext websellContext)
+        public UnitOfWork(IPaginationRepository paginationRepository, IProductRepository productRepository, IPaymentsRepository paymentsRepository, ICategoryRepository categoryRepository, WebsellContext websellContext)
         {
             PaginationRepository = paginationRepository;
             ProductRepository = productRepository;
             PaymentsRepository = paymentsRepository;
+            CategoryRepository = categoryRepository;
             _websellContext = websellContext;
         }
 

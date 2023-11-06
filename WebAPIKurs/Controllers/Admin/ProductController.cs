@@ -1,6 +1,6 @@
 ﻿using Application.DtoModels.Models.Pagination;
-using Application.DTOModels.Models.Admin;
 using Application.DTOModels.Models.Admin.Pagination;
+using Application.DTOModels.Models.Admin.Product;
 using Application.Services.Interfaces.IServices;
 using Application.Services.Interfaces.IServices.Admin;
 using Microsoft.AspNetCore.Authorization;
@@ -21,19 +21,19 @@ namespace WebAPIKurs.Controllers.Admin
         }
 
         [HttpGet("Admin/Product/")]
-        public async Task<IActionResult> CreateProductAsync([FromQuery] ProductQueryParametersDto productModel)
+        public async Task<IActionResult> GetProductWithPaginationAsync([FromQuery] ProductQueryParametersDto productModel)
         {
             return Ok(await _paginationService.GetProductWithPaginationAsync(productModel));
         }
 
         [HttpPost("Admin/Product/")]
-        public async Task<IActionResult> CreateProductAsync([FromQuery] Product productModel)
+        public async Task<IActionResult> CreateProductAsync([FromQuery] ProductCreateDto productModel)
         {
             return Ok(await _productService.CreateProductAsync(productModel));
         }
 
         [HttpPut("Admin/Product/")]
-        public async Task<IActionResult> UpdateProductAsync([FromQuery] ProductDto productModel)
+        public async Task<IActionResult> UpdateProductAsync([FromQuery] ProductEditDto productModel)
         {
             return Ok(await _productService.UpdateProductAsync(productModel.Id, productModel));
         }

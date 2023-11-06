@@ -1,4 +1,4 @@
-﻿using Application.DTOModels.Models.Admin;
+﻿using Application.DTOModels.Models.Admin.Payment;
 using WebAPIKurs;
 
 namespace Application.Services.Interfaces.IRepository.Admin
@@ -7,7 +7,7 @@ namespace Application.Services.Interfaces.IRepository.Admin
     {
         Task<Payment> CreatePaymentAsync(Payment payment);
 
-        Task<Payment> UpdatePaymentAsync(PaymentDto paymentModel);
+        Task<Payment> EditPaymentAsync(PaymentEditDto paymentModel);
 
         Task<Payment> DeletePaymentAsync(int paymentId);
     }

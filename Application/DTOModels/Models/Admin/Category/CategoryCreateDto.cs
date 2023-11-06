@@ -1,19 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.DTOModels.Models.Admin
+namespace Application.DTOModels.Models.Admin.Category
 {
-    public class ProductDto
+    public class CategoryCreateDto
     {
-        [Required]
-        public int Id { get; set; }
-
         [Required]
         public string? Name { get; set; }
 
         [Required]
         public string? Description { get; set; }
-
-        [Required]
-        public double? Price { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6P+K9f23QK51g5bAXz3OGLT2YgaqKnb1zaHNt4a5Xvbh4KgFvqcvhNiDRjaQWOB+nmdAWjeBdzrsQLba93nDWA==",
+  "dgSpecHash": "CCxgnBMUauvKV3TzvUWolcWlLST/RQS8WFtj07g3N01Yq4yaKVBRv6FQx3wGXSC4M9yiNHDyDCpIEqqyZ7cM1Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ta4ve\\source\\repos\\WebAPICourseWork\\Persistance\\Persistance.csproj",
+  "projectFilePath": "C:\\Users\\ta4ve\\Source\\Repos\\WebAPICourseWork\\Persistance\\Persistance.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ta4ve\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\ta4ve\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

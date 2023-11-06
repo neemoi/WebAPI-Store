@@ -1,5 +1,5 @@
-﻿using Application.DTOModels.Models.Admin;
-using Application.DTOModels.Models.Admin.Pagination;
+﻿using Application.DTOModels.Models.Admin.Pagination;
+using Application.DTOModels.Models.Admin.Payment;
 using Application.Services.Interfaces.IServices;
 using Application.Services.Interfaces.IServices.Admin;
 using Microsoft.AspNetCore.Mvc;
@@ -18,22 +18,29 @@ namespace WebAPIKurs.Controllers.Admin
             _paginationService = paginationService;
         }
 
+
+        [HttpGet("Admin/Payment/")]
+        public async Task<IActionResult> GetPaymentsWithPaginationAsync([FromQuery] PaymentQueryParametersDto productModel)
+        {
+            return Ok(await _paginationService.GetPaymentsWithPaginationAsync(productModel));
+        }
+
         [HttpPost("Admin/Payment/")]
-        public async Task<IActionResult> CreatePaymentAsync(Payment paymentModel)
+        public async Task<IActionResult> CreatePaymentAsync(PaymentCreateDto paymentModel)
         {
             return Ok(await _paymentService.CreatePaymentAsync(paymentModel));
         }
 
         [HttpPut("Admin/Payment/")]
-        public async Task<IActionResult> UpdatePaymentAsync(PaymentDto paymentModel)
+        public async Task<IActionResult> EditPaymentAsync(PaymentEditDto paymentModel)
         {
-            return Ok(await _paymentService.UpdatePaymentAsync(paymentModel));
+            return Ok(await _paymentService.EditPaymentAsync(paymentModel));
         }
 
         [HttpDelete("Admin/Payment/")]
-        public async Task<IActionResult> DeletePaymentAsync(int paymentId)
+        public async Task<IActionResult> DeletePaymentAsync(int id)
         {
-            return Ok(await _paymentService.DeletePaymentAsync(paymentId));
+            return Ok(await _paymentService.DeletePaymentAsync(id));
         }
     }
 }

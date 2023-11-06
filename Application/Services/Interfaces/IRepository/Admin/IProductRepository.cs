@@ -1,4 +1,4 @@
-﻿using Application.DTOModels.Models.Admin;
+﻿using Application.DTOModels.Models.Admin.Product;
 using WebAPIKurs;
 
 namespace Application.Services.Interfaces.IRepository.Admin
@@ -7,7 +7,7 @@ namespace Application.Services.Interfaces.IRepository.Admin
     {
         Task<Product> CreateProductAsync(Product productModel);
 
-        Task<Product> UpdateProductAsync(int productId, ProductDto productModel);
+        Task<Product> UpdateProductAsync(int productId, ProductEditDto productModel);
 
         Task<Product> DeleteProductAsync(int productId);
     }

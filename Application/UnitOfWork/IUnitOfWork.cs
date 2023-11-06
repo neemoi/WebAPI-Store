@@ -10,6 +10,8 @@ namespace Application.Services.UnitOfWork
 
         IPaymentsRepository PaymentsRepository { get; }
 
+        ICategoryRepository CategoryRepository { get; }
+
         Task SaveChangesAsync();
     }
 }

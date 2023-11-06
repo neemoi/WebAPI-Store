@@ -8,18 +8,18 @@ namespace Application.DTOModels.Models.Admin.Pagination
         public int Page { get; set; } = 1;
 
         [Range(0, 1001, ErrorMessage = "PageSize must be between 0 and 100.")]
-        public int PageSize { get; set; } = 10;
+        public int PageSize { get; set; } = 1001;
 
         public string SortField { get; set; } = "Id";
 
         public string SortOrder { get; set; } = "asc";
 
-        public string? SearchProductId { get; set; }
+        public string? Id { get; set; }
 
-        public string? SearchProductName { get; set; }
+        public string? Name { get; set; }
 
-        public string? SearchProductDescription { get; set; }
+        public string? Description { get; set; }
 
-        public string? SearchProductPrice { get; set; }
+        public string? Price { get; set; }
     }
 }

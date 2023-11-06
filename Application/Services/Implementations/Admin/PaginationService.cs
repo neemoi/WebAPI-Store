@@ -27,10 +27,7 @@ namespace Application.Services.Implementations
 
                 var userResponseDto = result.Select(user =>
                 {
-                    var userResponseDto = _mapper.Map<UserResponseDto>(user);
-
-                    return userResponseDto;
-
+                    return _mapper.Map<UserResponseDto>(user); ;
                 }).ToList();
 
                 return userResponseDto;
@@ -54,13 +51,7 @@ namespace Application.Services.Implementations
             {
                 var result = await _unitOfWork.PaginationRepository.GetRoleWithPaginationAsync(parametersModel);
 
-                var roleResponseDto = result.Select(role =>
-                {
-                    var roleResponseDto = _mapper.Map<RoleResponseDto>(role);
-
-                    return roleResponseDto;
-
-                }).ToList();
+                var roleResponseDto = result.Select(_mapper.Map<RoleResponseDto>).ToList();
 
                 return roleResponseDto;
             }
@@ -86,13 +77,63 @@ namespace Application.Services.Implementations
 
                 var productResponseDto = result.Select(product =>
                 {
-                    var productResponseDto = _mapper.Map<ProductResponseDto>(product);
-
-                    return productResponseDto;
-
+                    return _mapper.Map<ProductResponseDto>(product); ;
                 }).ToList();
 
                 return productResponseDto;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "Error fetching role with pagination")
+                {
+                    throw new Exception("Error fetching roles", ex);
+                }
+                else
+                {
+                    throw new Exception("Internal Server Error", ex);
+                }
+            }
+        }
+
+        public async Task<IEnumerable<PaymentResponseDto>> GetPaymentsWithPaginationAsync(PaymentQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var result = await _unitOfWork.PaginationRepository.GetPaymentsWithPaginationAsync(parametersModel);
+
+
+                var paymentsResponseDto = result.Select(payment =>
+                {
+                    return _mapper.Map<PaymentResponseDto>(payment); ;
+                }).ToList();
+
+                return paymentsResponseDto;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "Error fetching role with pagination")
+                {
+                    throw new Exception("Error fetching roles", ex);
+                }
+                else
+                {
+                    throw new Exception("Internal Server Error", ex);
+                }
+            }
+        }
+
+        public async Task<IEnumerable<CategoryResponseDto>> GetCategoryWithPaginationAsync(CategoryQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var result = await _unitOfWork.PaginationRepository.GetCategoryWithPaginationAsync(parametersModel);
+
+                var categoryResponseDto = result.Select(category =>
+                {
+                    return _mapper.Map<CategoryResponseDto>(category); ;
+                }).ToList();
+
+                return categoryResponseDto;
             }
             catch (Exception ex)
             {

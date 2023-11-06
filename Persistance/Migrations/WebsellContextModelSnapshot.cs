@@ -22,6 +22,26 @@ namespace Persistance.Migrations
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
 
+            modelBuilder.Entity("Domain.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.ToTable("category", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -247,6 +267,10 @@ namespace Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("enum('new','processed','delivered')");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -309,11 +333,21 @@ namespace Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Color")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<string>("Memory")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
@@ -323,6 +357,8 @@ namespace Persistance.Migrations
 
                     b.HasKey("Id")
                         .HasName("PRIMARY");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("products", (string)null);
                 });
@@ -371,6 +407,22 @@ namespace Persistance.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("WebAPIKurs.Product", b =>
+                {
+                    b.HasOne("Domain.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .IsRequired()
+                        .HasConstraintName("products_category_bdab");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Domain.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("WebAPIKurs.CustomUser", b =>

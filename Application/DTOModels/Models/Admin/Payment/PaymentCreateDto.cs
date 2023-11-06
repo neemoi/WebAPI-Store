@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.DTOModels.Models.Admin
+namespace Application.DTOModels.Models.Admin.Payment
 {
-    public class PaymentDto
+    public class PaymentCreateDto
     {
-        [Required]
-        public int Id { get; set; }
-
         [Required]
         public string Type { get; set; } = null!;
 

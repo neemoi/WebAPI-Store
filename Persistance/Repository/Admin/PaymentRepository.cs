@@ -1,4 +1,4 @@
-﻿using Application.DTOModels.Models.Admin;
+﻿using Application.DTOModels.Models.Admin.Payment;
 using Application.Services.Interfaces.IRepository.Admin;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +51,7 @@ namespace Persistance.Repository.Admin
             }
         }
 
-        public async Task<Payment> UpdatePaymentAsync(PaymentDto paymentModel)
+        public async Task<Payment> EditPaymentAsync(PaymentEditDto paymentModel)
         {
             var result = await _websellContext.Payments.FirstOrDefaultAsync(p => p.Id == paymentModel.Id);
 

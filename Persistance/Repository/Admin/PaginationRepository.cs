@@ -48,33 +48,33 @@ namespace Persistance.Repository.Admin
                         : usersQuery.OrderBy(u => EF.Property<object>(u.User, parametersModel.SortField));
                 }
 
-                if (!string.IsNullOrEmpty(parametersModel.SearchUserId))
+                if (!string.IsNullOrEmpty(parametersModel.Id))
                 {
-                    usersQuery = usersQuery.Where(u => u.User.Id.Contains(parametersModel.SearchUserId));
+                    usersQuery = usersQuery.Where(u => u.User.Id.Contains(parametersModel.Id));
                 }
-                if (!string.IsNullOrEmpty(parametersModel.SearchUserName))
+                if (!string.IsNullOrEmpty(parametersModel.UserName))
                 {
-                    usersQuery = usersQuery.Where(u => u.User.UserName.Contains(parametersModel.SearchUserName));
+                    usersQuery = usersQuery.Where(u => u.User.UserName.Contains(parametersModel.UserName));
                 }
-                if (!string.IsNullOrEmpty(parametersModel.SearchEmail))
+                if (!string.IsNullOrEmpty(parametersModel.Email))
                 {
-                    usersQuery = usersQuery.Where(u => u.User.Email.Contains(parametersModel.SearchEmail));
+                    usersQuery = usersQuery.Where(u => u.User.Email.Contains(parametersModel.Email));
                 }
-                if (!string.IsNullOrEmpty(parametersModel.SearchPhoneNumber))
+                if (!string.IsNullOrEmpty(parametersModel.PhoneNumber))
                 {
-                    usersQuery = usersQuery.Where(u => u.User.PhoneNumber.Contains(parametersModel.SearchPhoneNumber));
+                    usersQuery = usersQuery.Where(u => u.User.PhoneNumber.Contains(parametersModel.PhoneNumber));
                 }
-                if (!string.IsNullOrEmpty(parametersModel.SearchState))
+                if (!string.IsNullOrEmpty(parametersModel.State))
                 {
-                    usersQuery = usersQuery.Where(u => u.User.State.Contains(parametersModel.SearchState));
+                    usersQuery = usersQuery.Where(u => u.User.State.Contains(parametersModel.State));
                 }
-                if (!string.IsNullOrEmpty(parametersModel.SearchCity))
+                if (!string.IsNullOrEmpty(parametersModel.City))
                 {
-                    usersQuery = usersQuery.Where(u => u.User.City.Contains(parametersModel.SearchCity));
+                    usersQuery = usersQuery.Where(u => u.User.City.Contains(parametersModel.City));
                 }
-                if (!string.IsNullOrEmpty(parametersModel.SearchAddress))
+                if (!string.IsNullOrEmpty(parametersModel.Address))
                 {
-                    usersQuery = usersQuery.Where(u => u.User.Address.Contains(parametersModel.SearchAddress));
+                    usersQuery = usersQuery.Where(u => u.User.Address.Contains(parametersModel.Address));
                 }
 
                 var users = await usersQuery
@@ -95,52 +95,50 @@ namespace Persistance.Repository.Admin
             }
             catch (Exception ex)
             {
-                if (ex.Message == "Error fetching users with pagination")
-                {
-                    throw new Exception("Error fetching users", ex);
-                }
-                else
-                {
-                    throw new Exception("Internal Server Error", ex);
-                }
+                throw new Exception("Error", ex);
             }
         }
 
-
         public async Task<IEnumerable<IdentityRole>> GetRoleWithPaginationAsync(RoleQueryParametersDto parametersModel)
         {
-            var roles = _roleManager.Roles.AsQueryable();
-
-            if (!string.IsNullOrEmpty(parametersModel.SortField))
+            try
             {
-                parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1); //changing the case of the first letter to the uppercase
+                var roles = _roleManager.Roles.AsQueryable();
 
-                if (parametersModel.SortOrder.ToUpper() == "DESC")
+                if (!string.IsNullOrEmpty(parametersModel.SortField))
                 {
-                    roles = roles.OrderByDescending(r => r.Name);
+                    parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1); //changing the case of the first letter to the uppercase
+
+                    if (parametersModel.SortOrder.ToUpper() == "DESC")
+                    {
+                        roles = roles.OrderByDescending(r => r.Name);
+                    }
+                    else
+                    {
+                        roles = roles.OrderBy(r => r.Name);
+                    }
                 }
-                else
+
+                if (!string.IsNullOrEmpty(parametersModel.Id))
                 {
-                    roles = roles.OrderBy(r => r.Name);
+                    roles = roles.Where(p => p.Id.ToString().Contains(parametersModel.Id));
                 }
-            }
+                if (!string.IsNullOrEmpty(parametersModel.Name))
+                {
+                    roles = roles.Where(r => r.Name.Contains(parametersModel.Name));
+                }
 
-            if (!string.IsNullOrEmpty(parametersModel.IdRole))
+                var rolesPage = await roles
+                    .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
+                    .Take(parametersModel.PageSize)
+                    .ToListAsync();
+
+                return rolesPage;
+            }
+            catch (Exception ex)
             {
-                roles = roles.Where(r => r.Id.Contains(parametersModel.IdRole));
+                throw new Exception("Error", ex);
             }
-
-            if (!string.IsNullOrEmpty(parametersModel.NameRole))
-            {
-                roles = roles.Where(r => r.Name.Contains(parametersModel.NameRole));
-            }
-
-            var rolesPage = await roles
-                .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
-                .Take(parametersModel.PageSize)
-                .ToListAsync();
-
-            return rolesPage;
         }
 
         public async Task<IEnumerable<ProductResponseDto>> GetProductsWithPaginationAsync(ProductQueryParametersDto parametersModel)
@@ -151,31 +149,31 @@ namespace Persistance.Repository.Admin
 
                 if (!string.IsNullOrEmpty(parametersModel.SortField))
                 {
-                    parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1);
+                    parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1); //changing the case of the first letter to the uppercase
 
                     productsQuery = parametersModel.SortOrder.ToUpper() == "DESC"
                         ? productsQuery.OrderByDescending(p => EF.Property<object>(p, parametersModel.SortField))
                         : productsQuery.OrderBy(p => EF.Property<object>(p, parametersModel.SortField));
                 }
 
-                if (!string.IsNullOrEmpty(parametersModel.SearchProductId))
+                if (!string.IsNullOrEmpty(parametersModel.Id))
                 {
-                    productsQuery = productsQuery.Where(p => p.Id.ToString().Contains(parametersModel.SearchProductId));
+                    productsQuery = productsQuery.Where(p => p.Id.ToString().Contains(parametersModel.Id));
                 }
 
-                if (!string.IsNullOrEmpty(parametersModel.SearchProductName))
+                if (!string.IsNullOrEmpty(parametersModel.Name))
                 {
-                    productsQuery = productsQuery.Where(p => p.Name.Contains(parametersModel.SearchProductName));
+                    productsQuery = productsQuery.Where(p => p.Name.Contains(parametersModel.Name));
                 }
 
-                if (!string.IsNullOrEmpty(parametersModel.SearchProductDescription))
+                if (!string.IsNullOrEmpty(parametersModel.Description))
                 {
-                    productsQuery = productsQuery.Where(p => p.Description.Contains(parametersModel.SearchProductDescription));
+                    productsQuery = productsQuery.Where(p => p.Description.Contains(parametersModel.Description));
                 }
 
-                if (!string.IsNullOrEmpty(parametersModel.SearchProductPrice))
+                if (!string.IsNullOrEmpty(parametersModel.Price))
                 {
-                    productsQuery = productsQuery.Where(p => p.Price.ToString().Contains(parametersModel.SearchProductPrice));
+                    productsQuery = productsQuery.Where(p => p.Price.ToString().Contains(parametersModel.Price));
                 }
 
                 var products = await productsQuery
@@ -183,22 +181,100 @@ namespace Persistance.Repository.Admin
                     .Take(parametersModel.PageSize)
                     .ToListAsync();
 
-                var productResponseDtos = products.Select(product => _mapper.Map<ProductResponseDto>(product)).ToList();
+                var productResponseDtos = products.Select(_mapper.Map<ProductResponseDto>).ToList();
 
                 return productResponseDtos;
             }
             catch (Exception ex)
             {
-                if (ex.Message == "Error fetching products with pagination")
-                {
-                    throw new Exception("Error fetching products", ex);
-                }
-                else
-                {
-                    throw new Exception("Internal Server Error", ex);
-                }
+                throw new Exception("Error", ex);
             }
         }
 
+        public async Task<IEnumerable<PaymentResponseDto>> GetPaymentsWithPaginationAsync(PaymentQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var paymentsQuery = _websellContext.Payments.AsQueryable();
+
+                if (!string.IsNullOrEmpty(parametersModel.SortField))
+                {
+                    parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1); //changing the case of the first letter to the uppercase
+
+                    paymentsQuery = parametersModel.SortOrder.ToUpper() == "DESC"
+                        ? paymentsQuery.OrderByDescending(p => EF.Property<object>(p, parametersModel.SortField))
+                        : paymentsQuery.OrderBy(p => EF.Property<object>(p, parametersModel.SortField));
+                }
+
+                if (!string.IsNullOrEmpty(parametersModel.Id))
+                {
+                    paymentsQuery = paymentsQuery.Where(p => p.Id.ToString().Contains(parametersModel.Id));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Amount))
+                {
+                    paymentsQuery = paymentsQuery.Where(p => p.Amount.ToString().Contains(parametersModel.Amount));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Type))
+                {
+                    paymentsQuery = paymentsQuery.Where(p => p.Type == parametersModel.Type);
+                }
+
+                var payments = await paymentsQuery
+                    .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
+                    .Take(parametersModel.PageSize)
+                    .ToListAsync();
+
+                var paymentsResponseDtos = payments.Select(_mapper.Map<PaymentResponseDto>).ToList();
+
+                return paymentsResponseDtos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public async Task<IEnumerable<CategoryResponseDto>> GetCategoryWithPaginationAsync(CategoryQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var categoryQuery = _websellContext.Categorys.AsQueryable();
+
+                if (!string.IsNullOrEmpty(parametersModel.SortField))
+                {
+                    parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1); //changing the case of the first letter to the uppercase
+
+                    categoryQuery = parametersModel.SortOrder.ToUpper() == "DESC"
+                        ? categoryQuery.OrderByDescending(p => EF.Property<object>(p, parametersModel.SortField))
+                        : categoryQuery.OrderBy(p => EF.Property<object>(p, parametersModel.SortField));
+                }
+
+                if (!string.IsNullOrEmpty(parametersModel.Id))
+                {
+                    categoryQuery = categoryQuery.Where(p => p.Id.ToString().Contains(parametersModel.Id));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Description))
+                {
+                    categoryQuery = categoryQuery.Where(p => p.Description == parametersModel.Description);
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Name))
+                {
+                    categoryQuery = categoryQuery.Where(p => p.Name == parametersModel.Name);
+                }
+
+                var categorys = await categoryQuery
+                    .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
+                    .Take(parametersModel.PageSize)
+                    .ToListAsync();
+
+                var categorysResponseDtos = categorys.Select(_mapper.Map<CategoryResponseDto>).ToList();
+
+                return categorysResponseDtos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
     }
 }

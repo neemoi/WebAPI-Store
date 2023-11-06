@@ -1,4 +1,5 @@
 ﻿using Application.DTOModels.Models.Admin;
+using Application.DTOModels.Models.Admin.Product;
 using Application.Services.Interfaces.IRepository.Admin;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -12,13 +13,11 @@ namespace Persistance.Repository.Admin
     public class ProductRepository : IProductRepository
     {
         private readonly WebsellContext _websellContext;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 
-        public ProductRepository(WebsellContext websellContext, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public ProductRepository(WebsellContext websellContext, IMapper mapper)
         {
             _websellContext = websellContext;
-            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
         }
 
@@ -56,7 +55,7 @@ namespace Persistance.Repository.Admin
             }
         }
 
-        public async Task<Product> UpdateProductAsync(int productId, ProductDto productModel)
+        public async Task<Product> UpdateProductAsync(int productId, ProductEditDto productModel)
         {
             var product = await _websellContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
 

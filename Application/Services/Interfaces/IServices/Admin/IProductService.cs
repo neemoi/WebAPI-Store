@@ -1,14 +1,13 @@
-﻿using Application.DTOModels.Models.Admin;
+﻿using Application.DTOModels.Models.Admin.Product;
 using Application.DTOModels.Response.Admin;
-using WebAPIKurs;
 
 namespace Application.Services.Interfaces.IServices.Admin
 {
     public interface IProductService
     {
-        Task<ProductResponseDto> CreateProductAsync(Product productModel);
+        Task<ProductResponseDto> CreateProductAsync(ProductCreateDto productModel);
 
-        Task<ProductResponseDto> UpdateProductAsync(int productId, ProductDto productModel);
+        Task<ProductResponseDto> UpdateProductAsync(int productId, ProductEditDto productModel);
 
         Task<ProductResponseDto> DeleteProductAsync(int productId);
     }

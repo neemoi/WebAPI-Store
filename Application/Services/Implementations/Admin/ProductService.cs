@@ -1,4 +1,4 @@
-﻿using Application.DTOModels.Models.Admin;
+﻿using Application.DTOModels.Models.Admin.Product;
 using Application.DTOModels.Response.Admin;
 using Application.Services.Interfaces.IServices.Admin;
 using Application.Services.UnitOfWork;
@@ -18,7 +18,7 @@ namespace Application.Services.Implementations.Admin
             _mapper = mapper;
         }
 
-        public async Task<ProductResponseDto> CreateProductAsync(Product productModel)
+        public async Task<ProductResponseDto> CreateProductAsync(ProductCreateDto productModel)
         {
             var product = _mapper.Map<Product>(productModel);
 
@@ -34,7 +34,7 @@ namespace Application.Services.Implementations.Admin
             return _mapper.Map<ProductResponseDto>(result);
         }
 
-        public async Task<ProductResponseDto> UpdateProductAsync(int productId, ProductDto productModel)
+        public async Task<ProductResponseDto> UpdateProductAsync(int productId, ProductEditDto productModel)
         {
             var result = await _unitOfWork.ProductRepository.UpdateProductAsync(productId, productModel);
 
