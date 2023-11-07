@@ -33,7 +33,8 @@ namespace WebAPIKurs
 
             //Registering Scoped Services
             builder.Services.AddAutoMapper(typeof(MappingAccount), typeof(MappingRoles), typeof(MappingUsers), 
-                typeof(MappingProducts), typeof(MappingPayments), typeof(MappingCategory));
+                typeof(MappingProducts), typeof(MappingPayments), typeof(MappingCategory),
+                typeof(MappingDelivery));
 
             //Registering Scoped Services
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -47,12 +48,14 @@ namespace WebAPIKurs
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IDeliveryService, DeliveryService>();
 
             //Registering Scoped Repositories
             builder.Services.AddScoped<IPaginationRepository, PaginationRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IPaymentsRepository, PaymentRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 
             //Identity Configuration
             builder.Services.AddIdentity<CustomUser, IdentityRole>()

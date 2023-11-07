@@ -9,15 +9,13 @@ namespace Application.MappingProfile.Admin
     {
         public MappingCategory()
         {
-            CreateMap<Category, CategoryDto>();
-            CreateMap<CategoryDto, Category>();
-            CreateMap<Category, CategoryResponseDto>();
-
             CreateMap<Category, CategoryCreateDto>();
             CreateMap<CategoryCreateDto, Category>();
 
             CreateMap<Category, CategoryEditDto>();
             CreateMap<CategoryEditDto, Category>();
+
+            CreateMap<Category, CategoryResponseDto>();
         }
     }
 }

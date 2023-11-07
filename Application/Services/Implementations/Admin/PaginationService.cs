@@ -34,14 +34,7 @@ namespace Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                if (ex.Message == "Error fetching users with pagination")
-                {
-                    throw new Exception("Error fetching users", ex);
-                }
-                else
-                {
-                    throw new Exception("Internal Server Error", ex);
-                }
+                throw new Exception("Error", ex);
             }
         }
 
@@ -57,14 +50,7 @@ namespace Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                if (ex.Message == "Error fetching role with pagination")
-                {
-                    throw new Exception("Error fetching roles", ex);
-                }
-                else
-                {
-                    throw new Exception("Internal Server Error", ex);
-                }
+                throw new Exception("Error", ex);
             }
         }
 
@@ -84,14 +70,7 @@ namespace Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                if (ex.Message == "Error fetching role with pagination")
-                {
-                    throw new Exception("Error fetching roles", ex);
-                }
-                else
-                {
-                    throw new Exception("Internal Server Error", ex);
-                }
+                throw new Exception("Error", ex);
             }
         }
 
@@ -111,14 +90,7 @@ namespace Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                if (ex.Message == "Error fetching role with pagination")
-                {
-                    throw new Exception("Error fetching roles", ex);
-                }
-                else
-                {
-                    throw new Exception("Internal Server Error", ex);
-                }
+                throw new Exception("Error", ex);
             }
         }
 
@@ -137,14 +109,23 @@ namespace Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                if (ex.Message == "Error fetching role with pagination")
-                {
-                    throw new Exception("Error fetching roles", ex);
-                }
-                else
-                {
-                    throw new Exception("Internal Server Error", ex);
-                }
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public async Task<IEnumerable<DeliveryResponseDto>> GetDeliveryWithPaginationAsync(DeliveryQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var result = await _unitOfWork.PaginationRepository.GetDeliveryWithPaginationAsync(parametersModel);
+
+                var deliveryResponseDto = result.Select(_mapper.Map<DeliveryResponseDto>).ToList();
+
+                return deliveryResponseDto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
             }
         }
     }

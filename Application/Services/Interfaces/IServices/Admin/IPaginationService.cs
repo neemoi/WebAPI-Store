@@ -17,5 +17,6 @@ namespace Application.Services.Interfaces.IServices
 
         Task<IEnumerable<CategoryResponseDto>> GetCategoryWithPaginationAsync(CategoryQueryParametersDto parametersModel);
 
+        Task<IEnumerable<DeliveryResponseDto>> GetDeliveryWithPaginationAsync(DeliveryQueryParametersDto parametersModel);
     }
 }

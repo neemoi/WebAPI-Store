@@ -1,11 +1,7 @@
-﻿using Application.DTOModels.Models.Admin;
-using Application.DTOModels.Models.Admin.Product;
+﻿using Application.DTOModels.Models.Admin.Product;
 using Application.Services.Interfaces.IRepository.Admin;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Security.Claims;
 using WebAPIKurs;
 
 namespace Persistance.Repository.Admin
@@ -55,7 +51,7 @@ namespace Persistance.Repository.Admin
             }
         }
 
-        public async Task<Product> UpdateProductAsync(int productId, ProductEditDto productModel)
+        public async Task<Product> EditProductAsync(int productId, ProductEditDto productModel)
         {
             var product = await _websellContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
 

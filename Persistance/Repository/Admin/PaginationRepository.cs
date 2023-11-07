@@ -276,5 +276,48 @@ namespace Persistance.Repository.Admin
                 throw new Exception("Error", ex);
             }
         }
+
+        public async Task<IEnumerable<DeliveryResponseDto>> GetDeliveryWithPaginationAsync(DeliveryQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var deliveryQuery = _websellContext.Deliveries.AsQueryable();
+
+                if (!string.IsNullOrEmpty(parametersModel.SortField))
+                {
+                    parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1); //changing the case of the first letter to the uppercase
+
+                    deliveryQuery = parametersModel.SortOrder.ToUpper() == "DESC"
+                        ? deliveryQuery.OrderByDescending(p => EF.Property<object>(p, parametersModel.SortField))
+                        : deliveryQuery.OrderBy(p => EF.Property<object>(p, parametersModel.SortField));
+                }
+
+                if (!string.IsNullOrEmpty(parametersModel.Id))
+                {
+                    deliveryQuery = deliveryQuery.Where(p => p.Id.ToString().Contains(parametersModel.Id));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Price))
+                {
+                    deliveryQuery = deliveryQuery.Where(p => p.Price.ToString().Contains(parametersModel.Price));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Type))
+                {
+                    deliveryQuery = deliveryQuery.Where(p => p.Type == parametersModel.Type);
+                }
+
+                var deliverys = await deliveryQuery
+                    .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
+                    .Take(parametersModel.PageSize)
+                    .ToListAsync();
+
+                var deliveryResponseDtos = deliverys.Select(_mapper.Map<DeliveryResponseDto>).ToList();
+
+                return deliveryResponseDtos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
     }
 }

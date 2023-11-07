@@ -51,7 +51,7 @@ CREATE TABLE `category` (
   `Name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `Description` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +76,7 @@ CREATE TABLE `deliveries` (
   `Type` enum('pickup','courier','mail') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,6 +85,7 @@ CREATE TABLE `deliveries` (
 
 LOCK TABLES `deliveries` WRITE;
 /*!40000 ALTER TABLE `deliveries` DISABLE KEYS */;
+INSERT INTO `deliveries` VALUES (2,'mail',30.00),(3,'pickup',0.00),(4,'courier',15.00);
 /*!40000 ALTER TABLE `deliveries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +162,7 @@ CREATE TABLE `payments` (
   `Type` enum('cash','card','e-money') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Amount` decimal(10,2) NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +193,7 @@ CREATE TABLE `products` (
   PRIMARY KEY (`Id`),
   KEY `IX_products_CategoryId` (`CategoryId`),
   CONSTRAINT `products_category_bdab` FOREIGN KEY (`CategoryId`) REFERENCES `category` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +202,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Pixel 7','Name: Pixel 7, Price: 599$, Memory: 12\\128 GB, Color: Lemongrass',599.00,1,'Lemongrass','12\\128 GB'),(2,'Pixel 6 a','Name: Pixel 6 a, Price: 345$, Memory: 6\\128 GB, Color: Sage',345.00,1,'Sage','6\\128 GB'),(3,'Pixel 8','Name: Pixel 8, Price: 699$, Memory: 6\\128 GB, Color: Hazel',699.00,1,'Hazel','6\\128 GB'),(4,'Pixel 8 pro','Name: Pixel 8 pro, Price: 1399$, Memory: 12\\1 TB, Color: Bay',1399.00,1,'Bay','12\\1 TB'),(5,'Pixel 8','Name: Pixel 8, Price: 699$, Memory: 6\\128 GB, Color: Obsidian',699.00,1,'Obsidian','6\\128 GB'),(6,'Pixel 8','Name: Pixel 8, Price: 699$, Memory: 8\\256 GB, Color: Rose',759.00,1,'Rose','8\\256 GB'),(7,'Pixel 8 pro','Name: Pixel 8 pro, Price: 1179$, Memory: 12\\512 GB, Color: Porcelain',1179.00,1,'Porcelain','12\\512 GB'),(8,'Pixel 8 pro','Name: Pixel 8 pro, Price: 1059$, Memory: 12\\256 GB, Color: Obsidian',1059.00,1,'Obsidian','12\\256 GB'),(9,'Pixel Watch ','Name: Pixel Watch, Price: 449$, Memory: 1 GB, Color: Black',449.00,2,'Black','1 GB'),(10,'Pixel Watch ','Name: Pixel Watch, Price: 449$, Memory: 1 GB, Color: Rose',449.00,2,'Rose','1 GB'),(11,'Pixel Watch ','Name: Pixel Watch, Price: 449$, Memory: 1 GB, Color: Blue',449.00,2,'Blue','1 GB'),(12,'Pixel Watch 2','Name: Pixel Watch2, Price: 549$, Memory: 3 GB, Color: Black',549.00,2,'Black','3 GB'),(13,'Pixel Watch 2','Name: Pixel Watch2, Price: 549$, Memory: 3 GB, Color: Rose',549.00,2,'Rose','3 GB'),(14,'Pixel Watch 2','Name: Pixel Watch2, Price: 549$, Memory: 3 GB, Color: Brown',549.00,2,'Brown','3 GB'),(15,'Pixel Buds Pro','Name: Pixel Buds Pro, Price: 299$, Memory: 0.5 MB, Color: Bay',299.00,3,'Bay','0.5 MB'),(16,'Pixel Buds Pro','Name: Pixel Buds Pro, Price: 299$, Memory: 0.5 MB, Color: Porcelain',299.00,3,'Porcelain','0.5 MB'),(17,'Pixel Buds Pro','Name: Pixel Buds Pro, Price: 299$, Memory: 0.5 MB, Color: Lemongrass',299.00,3,'Lemongrass','0.5 MB'),(18,'Pixel Buds Pro','Name: Pixel Buds Pro, Price: 299$, Memory: 0.5 MB, Color:  Charcoal',299.00,3,'Charcoal','0.5 MB'),(19,'Pixel Buds Pro','Name: Pixel Buds Pro, Price: 299$, Memory: 0.5 MB, Color:  Fog',299.00,3,'Fog','0.5 MB'),(20,'Pixel Tablet','Name: Pixel Tablet, Price: 899$, Memory: 12/512  GB, Color:  Porcelain',899.00,4,'Porcelain','12/512  GB'),(21,'Pixel Tablet','Name: Pixel Tablet, Price: 899$, Memory: 12/512  GB, Color:  Hazel',899.00,4,'Hazel','12/512  GB'),(22,'Pixel 8 Pro Case','Name: Pixel 8 Pro Case, Price: 54.99$, Memory: 12/512  GB, Color:  Coral | Google Store exclusive',54.99,5,'Coral | Google Store exclusive','12/512  GB'),(23,'Pixel 8 Case','Name: Pixel 8 Pro Case, Price: 54.99$, Memory: 12/512  GB, Color:  Rose',54.99,5,'Rose','12/512  GB'),(24,'Pixel Watch Woven Band','Name: Pixel Watch Woven Band, Price: 89$, Memory: 0.5 MB, Color:  Lemongrass',89.00,5,'Lemongrass','0.5 MB'),(25,'Pixel Watch Stretch Band','Name: Pixel Watch Stretch Band, Price: 89$, Memory: 0.5 MB, Color:  Coral',89.00,5,'Coral','0.5 MB'),(26,'Pixel Watch Active Sport Band','Name: Pixel Watch Active Sport Band, Price: 69$, Memory: 0.5 MB, Color:  Porcelain',69.00,5,'Porcelain','0.5 MB');
+INSERT INTO `products` VALUES (1,'Pixel 7','Name: Pixel 7, Price: 599$, Memory: 12\\128 GB, Color: Lemongrass',599.00,1,'Lemongrass','12\\128 GB'),(2,'Pixel 6 a','Name: Pixel 6 a, Price: 345$, Memory: 6\\128 GB, Color: Sage',345.00,1,'Sage','6\\128 GB'),(3,'Pixel 8','Name: Pixel 8, Price: 699$, Memory: 6\\128 GB, Color: Hazel',699.00,1,'Hazel','6\\128 GB'),(4,'Pixel 8 pro','Name: Pixel 8 pro, Price: 1399$, Memory: 12\\1 TB, Color: Bay',1399.00,1,'Bay','12\\1 TB'),(5,'Pixel 8','Name: Pixel 8, Price: 699$, Memory: 6\\128 GB, Color: Obsidian',699.00,1,'Obsidian','6\\128 GB'),(6,'Pixel 8','Name: Pixel 8, Price: 699$, Memory: 8\\256 GB, Color: Rose',759.00,1,'Rose','8\\256 GB'),(7,'Pixel 8 pro','Name: Pixel 8 pro, Price: 1179$, Memory: 12\\512 GB, Color: Porcelain',1179.00,1,'Porcelain','12\\512 GB'),(8,'Pixel 8 pro','Name: Pixel 8 pro, Price: 1059$, Memory: 12\\256 GB, Color: Obsidian',1059.00,1,'Obsidian','12\\256 GB'),(9,'Pixel Watch ','Name: Pixel Watch, Price: 449$, Memory: 1 GB, Color: Black',449.00,2,'Black','1 GB'),(10,'Pixel Watch ','Name: Pixel Watch, Price: 449$, Memory: 1 GB, Color: Rose',449.00,2,'Rose','1 GB'),(11,'Pixel Watch ','Name: Pixel Watch, Price: 449$, Memory: 1 GB, Color: Blue',449.00,2,'Blue','1 GB'),(12,'Pixel Watch 2','Name: Pixel Watch2, Price: 549$, Memory: 3 GB, Color: Black',549.00,2,'Black','3 GB'),(13,'Pixel Watch 2','Name: Pixel Watch2, Price: 549$, Memory: 3 GB, Color: Rose',549.00,2,'Rose','3 GB'),(14,'Pixel Watch 2','Name: Pixel Watch2, Price: 549$, Memory: 3 GB, Color: Brown',549.00,2,'Brown','3 GB'),(15,'Pixel Buds Pro','Name: Pixel Buds Pro, Price: 299$, Memory: 0.5 MB, Color: Bay',299.00,3,'Bay','0.5 MB'),(16,'Pixel Buds Pro','Name: Pixel Buds Pro, Price: 299$, Memory: 0.5 MB, Color: Porcelain',299.00,3,'Porcelain','0.5 MB'),(17,'Pixel Buds Pro','Name: Pixel Buds Pro, Price: 299$, Memory: 0.5 MB, Color: Lemongrass',299.00,3,'Lemongrass','0.5 MB'),(19,'Pixel Buds Pro','Name: Pixel Buds Pro, Price: 299$, Memory: 0.5 MB, Color:  Fog',299.00,3,'Fog','0.5 MB'),(20,'Pixel Tablet','Name: Pixel Tablet, Price: 899$, Memory: 12/512  GB, Color:  Porcelain',899.00,4,'Porcelain','12/512  GB'),(21,'Pixel Tablet','Name: Pixel Tablet, Price: 899$, Memory: 12/512  GB, Color:  Hazel',899.00,4,'Hazel','12/512  GB'),(22,'Pixel 8 Pro Case','Name: Pixel 8 Pro Case, Price: 54.99$, Memory: 12/512  GB, Color:  Coral | Google Store exclusive',54.99,5,'Coral | Google Store exclusive','12/512  GB'),(23,'Pixel 8 Case','Name: Pixel 8 Pro Case, Price: 54.99$, Memory: 12/512  GB, Color:  Rose',54.99,5,'Rose','12/512  GB'),(24,'Pixel Watch Woven Band','Name: Pixel Watch Woven Band, Price: 89$, Memory: 0.5 MB, Color:  Lemongrass',89.00,5,'Lemongrass','0.5 MB'),(25,'Pixel Watch Stretch Band','Name: Pixel Watch Stretch Band, Price: 89$, Memory: 0.5 MB, Color:  Coral',89.00,5,'Coral','0.5 MB'),(26,'Pixel Watch Active Sport Band','Name: Pixel Watch Active Sport Band, Price: 69$, Memory: 0.5 MB, Color:  Porcelain',69.00,5,'Porcelain','0.5 MB');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -405,4 +406,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-07  0:31:07
+-- Dump completed on 2023-11-07 19:26:44

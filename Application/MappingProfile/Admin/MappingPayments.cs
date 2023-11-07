@@ -9,15 +9,13 @@ namespace Application.MappingProfile.Admin
     {
         public MappingPayments()
         {
-            CreateMap<Payment, PaymentDto>();
-            CreateMap<PaymentDto, Payment>();
-            CreateMap<Payment, PaymentResponseDto>();
-
             CreateMap<Payment, PaymentCreateDto>();
             CreateMap<PaymentCreateDto, Payment>();
 
             CreateMap<Payment, PaymentEditDto>();
             CreateMap<PaymentEditDto, Payment>();
+
+            CreateMap<Payment, PaymentResponseDto>();
         }
     }
 }

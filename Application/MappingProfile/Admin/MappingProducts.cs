@@ -9,15 +9,13 @@ namespace Application.MappingProfile.Admin
     {
         public MappingProducts()
         {
-            CreateMap<Product, ProductDto>();
-            CreateMap<ProductDto, Product>();
-            CreateMap<Product, ProductResponseDto>();
-
             CreateMap<Product, ProductCreateDto>();
             CreateMap<ProductCreateDto, Product>();
 
             CreateMap<Product, ProductEditDto>();
             CreateMap<ProductEditDto, Product>();
+
+            CreateMap<Product, ProductResponseDto>();
         }
     }
 }

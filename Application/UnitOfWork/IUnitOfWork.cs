@@ -12,6 +12,7 @@ namespace Application.Services.UnitOfWork
 
         ICategoryRepository CategoryRepository { get; }
 
+        IDeliveryRepository DeliveryRepository { get; }
         Task SaveChangesAsync();
     }
 }

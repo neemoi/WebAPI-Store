@@ -7,7 +7,7 @@ namespace Application.Services.Interfaces.IRepository.Admin
     {
         Task<Product> CreateProductAsync(Product productModel);
 
-        Task<Product> UpdateProductAsync(int productId, ProductEditDto productModel);
+        Task<Product> EditProductAsync(int productId, ProductEditDto productModel);
 
         Task<Product> DeleteProductAsync(int productId);
     }

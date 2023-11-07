@@ -36,7 +36,7 @@ namespace Application.Services.Implementations.Admin
 
         public async Task<ProductResponseDto> UpdateProductAsync(int productId, ProductEditDto productModel)
         {
-            var result = await _unitOfWork.ProductRepository.UpdateProductAsync(productId, productModel);
+            var result = await _unitOfWork.ProductRepository.EditProductAsync(productId, productModel);
 
             await _unitOfWork.SaveChangesAsync();
 
