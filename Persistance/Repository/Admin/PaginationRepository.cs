@@ -2,6 +2,7 @@
 using Application.DtoModels.Response.Admin;
 using Application.DTOModels.Models.Admin.Pagination;
 using Application.DTOModels.Response.Admin;
+using Application.DTOModels.Response.User;
 using Application.Services.Interfaces.IRepository.Admin;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -145,7 +146,9 @@ namespace Persistance.Repository.Admin
         {
             try
             {
-                var productsQuery = _websellContext.Products.AsQueryable();
+                var productsQuery = _websellContext.Products
+                    .Include(p => p.Category)
+                    .AsQueryable();
 
                 if (!string.IsNullOrEmpty(parametersModel.SortField))
                 {
@@ -160,20 +163,29 @@ namespace Persistance.Repository.Admin
                 {
                     productsQuery = productsQuery.Where(p => p.Id.ToString().Contains(parametersModel.Id));
                 }
-
                 if (!string.IsNullOrEmpty(parametersModel.Name))
                 {
                     productsQuery = productsQuery.Where(p => p.Name.Contains(parametersModel.Name));
                 }
-
                 if (!string.IsNullOrEmpty(parametersModel.Description))
                 {
                     productsQuery = productsQuery.Where(p => p.Description.Contains(parametersModel.Description));
                 }
-
                 if (!string.IsNullOrEmpty(parametersModel.Price))
                 {
                     productsQuery = productsQuery.Where(p => p.Price.ToString().Contains(parametersModel.Price));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Color))
+                {
+                    productsQuery = productsQuery.Where(p => p.Color == parametersModel.Color);
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Memory))
+                {
+                    productsQuery = productsQuery.Where(p => p.Memory == parametersModel.Memory);
+                }
+                if (!string.IsNullOrEmpty(parametersModel.CategoryName))
+                {
+                    productsQuery = productsQuery.Where(p => p.Category.Name == parametersModel.CategoryName);
                 }
 
                 var products = await productsQuery
@@ -313,6 +325,59 @@ namespace Persistance.Repository.Admin
                 var deliveryResponseDtos = deliverys.Select(_mapper.Map<DeliveryResponseDto>).ToList();
 
                 return deliveryResponseDtos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public async Task<IEnumerable<UserProductResponseDto>> UserGetProductWithPaginationAsync(UserProductQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var productsQuery = _websellContext.Products
+                    .Include(p => p.Category)
+                    .AsQueryable();
+
+                if (!string.IsNullOrEmpty(parametersModel.SortField))
+                {
+                    parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1); //changing the case of the first letter to the uppercase
+
+                    productsQuery = parametersModel.SortOrder.ToUpper() == "DESC"
+                        ? productsQuery.OrderByDescending(p => EF.Property<object>(p, parametersModel.SortField))
+                        : productsQuery.OrderBy(p => EF.Property<object>(p, parametersModel.SortField));
+                }
+
+                if (!string.IsNullOrEmpty(parametersModel.Name))
+                {
+                    productsQuery = productsQuery.Where(p => p.Name.Contains(parametersModel.Name));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Price))
+                {
+                    productsQuery = productsQuery.Where(p => p.Price.ToString().Contains(parametersModel.Price));
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Color))
+                {
+                    productsQuery = productsQuery.Where(p => p.Color == parametersModel.Color);
+                }
+                if (!string.IsNullOrEmpty(parametersModel.Memory))
+                {
+                    productsQuery = productsQuery.Where(p => p.Memory == parametersModel.Memory);
+                }
+                if (!string.IsNullOrEmpty(parametersModel.CategoryName))
+                {
+                    productsQuery = productsQuery.Where(p => p.Category.Name == parametersModel.CategoryName);
+                }
+
+                var products = await productsQuery
+                    .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
+                    .Take(parametersModel.PageSize)
+                    .ToListAsync();
+
+                var productResponseDtos = products.Select(_mapper.Map<UserProductResponseDto>).ToList();
+
+                return productResponseDtos;
             }
             catch (Exception ex)
             {

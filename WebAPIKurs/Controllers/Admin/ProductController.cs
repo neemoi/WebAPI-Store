@@ -33,9 +33,9 @@ namespace WebAPIKurs.Controllers.Admin
         }
 
         [HttpPut("Admin/Product/")]
-        public async Task<IActionResult> UpdateProductAsync([FromQuery] ProductEditDto productModel)
+        public async Task<IActionResult> EditProductAsync([FromQuery] ProductEditDto productModel)
         {
-            return Ok(await _productService.UpdateProductAsync(productModel.Id, productModel));
+            return Ok(await _productService.EditProductAsync(productModel.Id, productModel));
         }
 
         [HttpDelete("Admin/Product/{id}")]

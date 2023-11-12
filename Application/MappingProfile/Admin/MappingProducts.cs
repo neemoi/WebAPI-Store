@@ -2,6 +2,7 @@
 using WebAPIKurs;
 using Application.DTOModels.Response.Admin;
 using Application.DTOModels.Models.Admin.Product;
+using Application.DTOModels.Response.User;
 
 namespace Application.MappingProfile.Admin
 {
@@ -16,6 +17,7 @@ namespace Application.MappingProfile.Admin
             CreateMap<ProductEditDto, Product>();
 
             CreateMap<Product, ProductResponseDto>();
+            CreateMap<Product, UserProductResponseDto>();
         }
     }
 }

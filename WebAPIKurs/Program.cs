@@ -1,4 +1,5 @@
 using Application.MappingProfile.Admin;
+using Application.MappingProfile.User;
 using Application.Services.Implementations;
 using Application.Services.Implementations.Admin;
 using Application.Services.Implementations.User;
@@ -10,6 +11,7 @@ using Application.Services.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Repository.Admin;
+using Persistance.Repository.User;
 using Persistance.UnitOfWork;
 
 namespace WebAPIKurs
@@ -30,11 +32,15 @@ namespace WebAPIKurs
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddLogging(builder =>
+            {
+                builder.AddConsole(); 
+            });
 
             //Registering Scoped Services
             builder.Services.AddAutoMapper(typeof(MappingAccount), typeof(MappingRoles), typeof(MappingUsers), 
                 typeof(MappingProducts), typeof(MappingPayments), typeof(MappingCategory),
-                typeof(MappingDelivery));
+                typeof(MappingDelivery), typeof(MappingOrder));
 
             //Registering Scoped Services
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -49,6 +55,7 @@ namespace WebAPIKurs
             builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IDeliveryService, DeliveryService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
 
             //Registering Scoped Repositories
             builder.Services.AddScoped<IPaginationRepository, PaginationRepository>();
@@ -56,6 +63,7 @@ namespace WebAPIKurs
             builder.Services.AddScoped<IPaymentsRepository, PaymentRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
             //Identity Configuration
             builder.Services.AddIdentity<CustomUser, IdentityRole>()

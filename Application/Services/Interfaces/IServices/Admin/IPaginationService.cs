@@ -2,6 +2,7 @@
 using Application.DtoModels.Response.Admin;
 using Application.DTOModels.Models.Admin.Pagination;
 using Application.DTOModels.Response.Admin;
+using Application.DTOModels.Response.User;
 
 namespace Application.Services.Interfaces.IServices
 {
@@ -18,5 +19,7 @@ namespace Application.Services.Interfaces.IServices
         Task<IEnumerable<CategoryResponseDto>> GetCategoryWithPaginationAsync(CategoryQueryParametersDto parametersModel);
 
         Task<IEnumerable<DeliveryResponseDto>> GetDeliveryWithPaginationAsync(DeliveryQueryParametersDto parametersModel);
+
+        Task<IEnumerable<UserProductResponseDto>> UserGetDeliveryWithPaginationAsync(UserProductQueryParametersDto parametersModel);
     }
 }

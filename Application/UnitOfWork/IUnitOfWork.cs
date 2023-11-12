@@ -13,6 +13,8 @@ namespace Application.Services.UnitOfWork
         ICategoryRepository CategoryRepository { get; }
 
         IDeliveryRepository DeliveryRepository { get; }
+
+        IOrderRepository OrderRepository { get; }
         Task SaveChangesAsync();
     }
 }

@@ -7,7 +7,7 @@ namespace Application.Services.Interfaces.IServices.Admin
     {
         Task<ProductResponseDto> CreateProductAsync(ProductCreateDto productModel);
 
-        Task<ProductResponseDto> UpdateProductAsync(int productId, ProductEditDto productModel);
+        Task<ProductResponseDto> EditProductAsync(int productId, ProductEditDto productModel);
 
         Task<ProductResponseDto> DeleteProductAsync(int productId);
     }

@@ -17,15 +17,18 @@ namespace Persistance.UnitOfWork
 
         public IDeliveryRepository DeliveryRepository { get; }
 
+        public IOrderRepository OrderRepository { get; }
+
         private readonly WebsellContext _websellContext;
 
-        public UnitOfWork(IPaginationRepository paginationRepository, IProductRepository productRepository, IPaymentsRepository paymentsRepository, ICategoryRepository categoryRepository, IDeliveryRepository deliveryRepository, WebsellContext websellContext)
+        public UnitOfWork(IPaginationRepository paginationRepository, IProductRepository productRepository, IPaymentsRepository paymentsRepository, ICategoryRepository categoryRepository, IDeliveryRepository deliveryRepository, IOrderRepository orderRepository, WebsellContext websellContext)
         {
             PaginationRepository = paginationRepository;
             ProductRepository = productRepository;
             PaymentsRepository = paymentsRepository;
             CategoryRepository = categoryRepository;
             DeliveryRepository = deliveryRepository;
+            OrderRepository = orderRepository;
             _websellContext = websellContext;
         }
 

@@ -23,4 +23,11 @@ public partial class Order
     public virtual CustomUser User { get; set; } = null!;
 
     public virtual ICollection<Orderitem> Orderitems { get; set; } = new List<Orderitem>();
+
+    public Order()
+    {
+        CreatedAt = DateTime.Now;
+        Status = "new";
+        TotalPrice = 0;
+    }
 }

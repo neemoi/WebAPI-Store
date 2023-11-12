@@ -34,7 +34,7 @@ namespace Application.Services.Implementations.Admin
             return _mapper.Map<ProductResponseDto>(result);
         }
 
-        public async Task<ProductResponseDto> UpdateProductAsync(int productId, ProductEditDto productModel)
+        public async Task<ProductResponseDto> EditProductAsync(int productId, ProductEditDto productModel)
         {
             var result = await _unitOfWork.ProductRepository.EditProductAsync(productId, productModel);
 
