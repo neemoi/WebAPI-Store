@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace WebAPIKurs.Controllers.User
 {
-    [Authorize]
+    //[Authorize]
     public class OrderController : Controller
     {
         private readonly IPaginationService _paginationService;
@@ -22,10 +22,16 @@ namespace WebAPIKurs.Controllers.User
             _orderService = orderService;
         }
 
-        [HttpGet("User/Order/AllProduct")]
-        public async Task<IActionResult> UserGetDeliveryWithPaginationAsync([FromQuery] UserProductQueryParametersDto productModel)
+        [HttpGet("User/Order/Product")]
+        public async Task<IActionResult> UserGetProductWithPaginationAsync([FromQuery] UserProductQueryParametersDto productModel)
         {
-            return Ok(await _paginationService.UserGetDeliveryWithPaginationAsync(productModel));
+            return Ok(await _paginationService.UserGetProductWithPaginationAsync(productModel));
+        }
+
+        [HttpGet("User/Order/")]
+        public async Task<IActionResult> UserGetOrderWithPaginationAsync([FromQuery] UserOrderQueryParametersDto orderModel)
+        {
+            return Ok(await _paginationService.UserGetOrderWithPaginationAsync(orderModel));
         }
 
         [HttpPost("User/Order/")]

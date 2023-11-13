@@ -1,5 +1,6 @@
 ﻿using Application.DtoModels.Models.Admin;
 using Application.DtoModels.Models.Pagination;
+using Application.DTOModels.Models.Admin.Pagination;
 using Application.DTOModels.Models.Admin.Roles;
 using Application.Services.Interfaces.IServices;
 using Application.Services.Interfaces.IServices.Admin;
@@ -21,11 +22,16 @@ namespace WebApi.Controllers.Admin
             _roleService = roleService;
         }
 
-
         [HttpGet("Admin/User/")]
         public async Task<IActionResult> PaginationUserAsync([FromQuery] UserQueryParametersDto parametersModel)
         {
             return Ok(await _paginationService.GetUserWithPaginationAsync(parametersModel));
+        }
+
+        [HttpGet("Admin/User/Order/")]
+        public async Task<IActionResult> UserGetOrderWithPaginationAsync([FromQuery] GeUsertOrderQueryParametersDto parametersModel)
+        {
+            return Ok(await _paginationService.GeUsertOrderWithPaginationAsync(parametersModel.UserId, parametersModel));
         }
 
         [HttpPut("Admin/User/Role")]

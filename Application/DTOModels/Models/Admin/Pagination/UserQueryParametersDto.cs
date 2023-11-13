@@ -12,7 +12,7 @@ namespace Application.DtoModels.Models.Pagination
 
         public string SortField { get; set; } = "Id";
 
-        public string SortOrder { get; set; } = "asc";
+        public string SortOrder { get; set; } = "ASC";
 
         public string? Id { get; set; }
 

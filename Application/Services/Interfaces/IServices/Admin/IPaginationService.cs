@@ -12,6 +12,8 @@ namespace Application.Services.Interfaces.IServices
 
         Task<IEnumerable<UserResponseDto>> GetUserWithPaginationAsync(UserQueryParametersDto parametersModel);
 
+        Task<IEnumerable<UserOrderResponseDto>> GeUsertOrderWithPaginationAsync(string userId, GeUsertOrderQueryParametersDto parametersModel);
+
         Task<IEnumerable<ProductResponseDto>> GetProductWithPaginationAsync(ProductQueryParametersDto parametersModel);
 
         Task<IEnumerable<PaymentResponseDto>> GetPaymentsWithPaginationAsync(PaymentQueryParametersDto parametersModel);
@@ -20,6 +22,8 @@ namespace Application.Services.Interfaces.IServices
 
         Task<IEnumerable<DeliveryResponseDto>> GetDeliveryWithPaginationAsync(DeliveryQueryParametersDto parametersModel);
 
-        Task<IEnumerable<UserProductResponseDto>> UserGetDeliveryWithPaginationAsync(UserProductQueryParametersDto parametersModel);
+        Task<IEnumerable<UserProductResponseDto>> UserGetProductWithPaginationAsync(UserProductQueryParametersDto parametersModel);
+
+        Task<IEnumerable<OrderResponseDto>> UserGetOrderWithPaginationAsync(UserOrderQueryParametersDto parametersModel);
     }
 }

@@ -178,6 +178,7 @@ namespace Persistance.Repository.User
             orderResponse.ListProductColor = colorList;
             orderResponse.ListProductMemory = memoryList;
         }
+
         private async Task<decimal> CalculateTotalPriceAsync(int paymentId, int deliverId, List<int> productIds, int quantity)
         {
             decimal totalPrice = 0;

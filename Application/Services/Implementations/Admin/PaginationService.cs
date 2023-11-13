@@ -118,7 +118,7 @@ namespace Application.Services.Implementations
             }
         }
 
-        public async Task<IEnumerable<UserProductResponseDto>> UserGetDeliveryWithPaginationAsync(UserProductQueryParametersDto parametersModel)
+        public async Task<IEnumerable<UserProductResponseDto>> UserGetProductWithPaginationAsync(UserProductQueryParametersDto parametersModel)
         {
             try
             {
@@ -127,6 +127,38 @@ namespace Application.Services.Implementations
                 var productResponseDto = result.Select(_mapper.Map<UserProductResponseDto>).ToList();
 
                 return productResponseDto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public async Task<IEnumerable<OrderResponseDto>> UserGetOrderWithPaginationAsync(UserOrderQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var result = await _unitOfWork.PaginationRepository.UserGetOrderWithPaginationAsync(parametersModel);
+
+                var orderResponseDto = result.Select(_mapper.Map<OrderResponseDto>).ToList();
+
+                return orderResponseDto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public async Task<IEnumerable<UserOrderResponseDto>> GeUsertOrderWithPaginationAsync(string userId, GeUsertOrderQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var result = await _unitOfWork.PaginationRepository.GeUsertOrderWithPaginationAsync(userId, parametersModel);
+
+                var orderResponseDto = result.Select(_mapper.Map<UserOrderResponseDto>).ToList();
+
+                return orderResponseDto;
             }
             catch (Exception ex)
             {
