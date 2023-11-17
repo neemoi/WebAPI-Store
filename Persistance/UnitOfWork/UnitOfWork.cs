@@ -19,9 +19,11 @@ namespace Persistance.UnitOfWork
 
         public IOrderRepository OrderRepository { get; }
 
+        public IUserOrderRepository UserOrderRepository { get; }
+
         private readonly WebsellContext _websellContext;
 
-        public UnitOfWork(IPaginationRepository paginationRepository, IProductRepository productRepository, IPaymentsRepository paymentsRepository, ICategoryRepository categoryRepository, IDeliveryRepository deliveryRepository, IOrderRepository orderRepository, WebsellContext websellContext)
+        public UnitOfWork(IPaginationRepository paginationRepository, IProductRepository productRepository, IPaymentsRepository paymentsRepository, ICategoryRepository categoryRepository, IDeliveryRepository deliveryRepository, IOrderRepository orderRepository, IUserOrderRepository userOrderRepository, WebsellContext websellContext)
         {
             PaginationRepository = paginationRepository;
             ProductRepository = productRepository;
@@ -29,6 +31,7 @@ namespace Persistance.UnitOfWork
             CategoryRepository = categoryRepository;
             DeliveryRepository = deliveryRepository;
             OrderRepository = orderRepository;
+            UserOrderRepository = userOrderRepository;
             _websellContext = websellContext;
         }
 

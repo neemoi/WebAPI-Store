@@ -1,4 +1,5 @@
-﻿using Application.DTOModels.Models.Admin.Authorization;
+﻿using Application.CustomException;
+using Application.DTOModels.Models.Admin.Authorization;
 using Application.Services.Interfaces.IServices.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,13 +19,20 @@ namespace WebAPIKurs.Controllers.Admin
         [AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromQuery] LoginDto model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                return Ok(await _accountService.LoginAsync(model));
+                if (ModelState.IsValid)
+                {
+                    return Ok(await _accountService.LoginAsync(model));
+                }
+                else
+                {
+                    throw new CustomRepositoryException("User not found. Check the correctness of the data", "INVALID_INPUT_DATA");
+                }
             }
-            else
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error");
+                throw new CustomRepositoryException("An error occurred while trying to LogIn: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
@@ -32,13 +40,20 @@ namespace WebAPIKurs.Controllers.Admin
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync([FromQuery] RegisterDto model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                return Ok(await _accountService.RegisterAsync(model));
+                if (ModelState.IsValid)
+                {
+                    return Ok(await _accountService.RegisterAsync(model));
+                }
+                else
+                {
+                    throw new CustomRepositoryException("Check the correctness of the data", "INVALID_INPUT_DATA");
+                }
             }
-            else
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error");
+                throw new CustomRepositoryException("An error occurred while trying to Register: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 

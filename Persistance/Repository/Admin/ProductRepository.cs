@@ -1,7 +1,11 @@
-﻿using Application.DTOModels.Models.Admin.Product;
+﻿using Application.CustomException;
+using Application.DTOModels.Models.Admin.Product;
 using Application.Services.Interfaces.IRepository.Admin;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Net;
 using WebAPIKurs;
 
 namespace Persistance.Repository.Admin
@@ -10,62 +14,92 @@ namespace Persistance.Repository.Admin
     {
         private readonly WebsellContext _websellContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<Product> _logger;
 
-        public ProductRepository(WebsellContext websellContext, IMapper mapper)
+        public ProductRepository(WebsellContext websellContext, IMapper mapper, ILogger<Product> logger)
         {
             _websellContext = websellContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<Product> CreateProductAsync(Product product)
         {
-            var result = await _websellContext.Products.AddAsync(product);
-
-            if (result != null)
+            try
             {
-                await _websellContext.SaveChangesAsync();
 
-                return product;
+                var result = await _websellContext.Products.AddAsync(product);
+
+                if (result != null)
+                {
+                    await _websellContext.SaveChangesAsync();
+
+                    return product;
+                }
+                else
+                {
+                    throw new CustomRepositoryException("Product not found", "NOT_FOUND_ERROR_CODE");
+                }
             }
-            else
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error create product");
+                _logger.LogError(ex, "Error in ProductRepository.CreateProductAsync: ", ex.Message);
+
+                throw new CustomRepositoryException(ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
         public async Task<Product> DeleteProductAsync(int productId)
         {
-            var result = await _websellContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
-
-            if (result != null)
+            try
             {
-                _websellContext.Products.Remove(result);
+                var result = await _websellContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
 
-                await _websellContext.SaveChangesAsync();
+                if (result != null)
+                {
+                    _websellContext.Products.Remove(result);
 
-                return result;
+                    await _websellContext.SaveChangesAsync();
+
+                    return result;
+                }
+                else
+                {
+                    throw new CustomRepositoryException($"Product ID ({productId}) not found", "NOT_FOUND_ERROR_CODE");
+                }
             }
-            else
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error delete product");
+                _logger.LogError(ex, "Error in ProductRepository.DeleteProductAsync: ", ex.Message);
+
+                throw new CustomRepositoryException(ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
         public async Task<Product> EditProductAsync(int productId, ProductEditDto productModel)
         {
-            var product = await _websellContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
-
-            if (product != null) 
+            try
             {
-                _mapper.Map(productModel, product);
+                var product = await _websellContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
 
-                await _websellContext.SaveChangesAsync();
+                if (product != null)
+                {
+                    _mapper.Map(productModel, product);
 
-                return product;
+                    await _websellContext.SaveChangesAsync();
+
+                    return product;
+                }
+                else
+                {
+                    throw new CustomRepositoryException($"Product ID ({productId}) not found", "NOT_FOUND_ERROR_CODE");
+                }
             }
-            else
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error update product");
+                _logger.LogError(ex, "Error in ProductRepository.EditProductAsync: ", ex.Message);
+
+                throw new CustomRepositoryException(ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
     }

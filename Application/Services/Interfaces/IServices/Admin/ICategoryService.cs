@@ -7,7 +7,7 @@ namespace Application.Services.Interfaces.IServices.Admin
     {
         Task<CategoryResponseDto> CreateCategoryAsync(CategoryCreateDto categoryModel);
 
-        Task<CategoryResponseDto> UpdateCategoryAsync(int categorytId, CategoryEditDto categoryModel);
+        Task<CategoryResponseDto> EditCategoryAsync(CategoryEditDto categoryModel);
 
         Task<CategoryResponseDto> DeleteCategoryAsync(int categorytId);
     }

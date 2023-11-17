@@ -2,11 +2,12 @@
 using Application.DTOModels.Models.Admin.Roles;
 using Application.Services.Interfaces.IServices;
 using Application.Services.Interfaces.IServices.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPIKurs.Controllers.Admin
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private readonly IRoleService _adminRolesService;
@@ -17,7 +18,6 @@ namespace WebAPIKurs.Controllers.Admin
             _adminRolesService = adminRolesService;
             _paginationService = paginationService;
         }
-
 
         [HttpGet("Admin/Role")]
         public async Task<IActionResult> RolePagination([FromQuery] RoleQueryParametersDto parametersModel)
@@ -37,7 +37,7 @@ namespace WebAPIKurs.Controllers.Admin
             return Ok(await _adminRolesService.EditRoleByIdAsync(editModel));
         }
 
-        [HttpDelete("Admin/Role/{id}")]
+        [HttpDelete("Admin/Role")]
         public async Task<IActionResult> DeleteRoleAsync(Guid id)
         {
             return Ok(await _adminRolesService.DeleteRoleAsync(id));

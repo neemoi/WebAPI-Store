@@ -7,7 +7,7 @@ namespace Application.Services.Interfaces.IServices.User
     {
         Task<OrderResponseDto> CreateOrderAsync(OrderCreateDto orderModel);
 
-        Task<OrderResponseDto> EditOrderAsync(int orderId, OrderEditDto orderModel);
+        Task<OrderResponseDto> EditOrderAsync(OrderEditDto orderModel);
 
         Task<OrderResponseDto> DeleteOrderAsync(int orderId);
     }

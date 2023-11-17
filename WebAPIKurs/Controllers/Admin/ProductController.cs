@@ -1,5 +1,4 @@
-﻿using Application.DtoModels.Models.Pagination;
-using Application.DTOModels.Models.Admin.Pagination;
+﻿using Application.DTOModels.Models.Admin.Pagination;
 using Application.DTOModels.Models.Admin.Product;
 using Application.Services.Interfaces.IServices;
 using Application.Services.Interfaces.IServices.Admin;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPIKurs.Controllers.Admin
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -35,10 +34,10 @@ namespace WebAPIKurs.Controllers.Admin
         [HttpPut("Admin/Product/")]
         public async Task<IActionResult> EditProductAsync([FromQuery] ProductEditDto productModel)
         {
-            return Ok(await _productService.EditProductAsync(productModel.Id, productModel));
+            return Ok(await _productService.EditProductAsync(productModel));
         }
 
-        [HttpDelete("Admin/Product/{id}")]
+        [HttpDelete("Admin/Product/")]
         public async Task<IActionResult> DeleteProductAsync(int id)
         {
             return Ok(await _productService.DeleteProductAsync(id));

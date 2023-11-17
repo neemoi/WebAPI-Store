@@ -30,6 +30,23 @@ namespace Persistance.Repository.Admin
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<IEnumerable<IdentityRole>> GetRoleWithPaginationAsync(RoleQueryParametersDto parametersModel)
+        {
+            try
+            {
+                var roles = BuildGetRoleProductQuery(parametersModel);
+
+                return await roles
+                    .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
+                    .Take(parametersModel.PageSize)
+                    .ToListAsync(); ;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
         public async Task<IEnumerable<UserResponseDto>> GetUserWithPaginationAsync(UserQueryParametersDto parametersModel)
         {
             try
@@ -105,23 +122,6 @@ namespace Persistance.Repository.Admin
             }
         }
 
-        public async Task<IEnumerable<IdentityRole>> GetRoleWithPaginationAsync(RoleQueryParametersDto parametersModel)
-        {
-            try
-            {
-                var roles = BuildGetRoleProductQuery(parametersModel);
-
-                return await roles
-                    .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
-                    .Take(parametersModel.PageSize)
-                    .ToListAsync(); ;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error", ex);
-            }
-        }
-
         public async Task<IEnumerable<ProductResponseDto>> GetProductsWithPaginationAsync(ProductQueryParametersDto parametersModel)
         {
             try
@@ -146,13 +146,13 @@ namespace Persistance.Repository.Admin
             try
             {
                 var paymentsQuery = BuildPaymentQuery(parametersModel);
-                
+
                 var payments = await paymentsQuery
                     .Skip((parametersModel.Page - 1) * parametersModel.PageSize)
                     .Take(parametersModel.PageSize)
                     .ToListAsync();
 
-                return payments.Select(_mapper.Map<PaymentResponseDto>).ToList(); 
+                return payments.Select(_mapper.Map<PaymentResponseDto>).ToList();
             }
             catch (Exception ex)
             {
@@ -232,7 +232,7 @@ namespace Persistance.Repository.Admin
 
                 foreach (var order in orders)
                 {
-                    await LoadOrderDetailsAsync(order); 
+                    await LoadOrderDetailsAsync(order);
 
                     var orderResponse = _mapper.Map<OrderResponseDto>(order);
                     orderResponseList.Add(orderResponse);
@@ -286,8 +286,6 @@ namespace Persistance.Repository.Admin
 
             if (!string.IsNullOrEmpty(parametersModel.SortField))
             {
-                parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1);
-
                 productsQuery = ApplySorting(productsQuery, parametersModel.SortField, parametersModel.SortOrder);
             }
 
@@ -340,8 +338,6 @@ namespace Persistance.Repository.Admin
 
             if (!string.IsNullOrEmpty(parametersModel.SortField))
             {
-                parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1);
-
                 paymentsQuery = ApplySorting(paymentsQuery, parametersModel.SortField, parametersModel.SortOrder);
             }
 
@@ -457,8 +453,6 @@ namespace Persistance.Repository.Admin
 
             if (!string.IsNullOrEmpty(parametersModel.SortField))
             {
-                parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1);
-
                 productsQuery = ApplySorting(productsQuery, parametersModel.SortField, parametersModel.SortOrder);
             }
 
@@ -503,8 +497,6 @@ namespace Persistance.Repository.Admin
 
             if (!string.IsNullOrEmpty(parametersModel.SortField))
             {
-                parametersModel.SortField = char.ToUpper(parametersModel.SortField[0]) + parametersModel.SortField.Substring(1);
-
                 rolesQuery = ApplySorting(rolesQuery, parametersModel.SortField, parametersModel.SortOrder);
             }
 
@@ -535,7 +527,7 @@ namespace Persistance.Repository.Admin
 
             var userOrders = _websellContext.Orders
                 .Include(p => p.Orderitems)
-                .Where(order => order.UserId == userId);    
+                .Where(order => order.UserId == userId);
 
             userOrders = ApplyUserGetOrderFilters(userOrders, parametersModel);
 

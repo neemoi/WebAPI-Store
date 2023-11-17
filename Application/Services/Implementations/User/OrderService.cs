@@ -1,4 +1,5 @@
-﻿using Application.DTOModels.Models.User.Order;
+﻿using Application.CustomException;
+using Application.DTOModels.Models.User.Order;
 using Application.DTOModels.Response.User;
 using Application.Services.Interfaces.IServices.User;
 using Application.Services.UnitOfWork;
@@ -33,10 +34,17 @@ namespace Application.Services.Implementations.User
 
                 return _mapper.Map<OrderResponseDto>(result);
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
                 _logger.LogError(ex, "Error when creating an order: {@OrderCreateDto}", orderModel);
-                throw;
+
+                throw new CustomRepositoryException("Error occurred while create an order: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                _logger.LogError(ex, "Error when mapping the order: {@OrderCreateDto}", orderModel);
+
+                throw new CustomRepositoryException("Error occurred during order mapping", "MAPPING_ERROR_CODE", ex.Message);
             }
         }
         
@@ -52,31 +60,45 @@ namespace Application.Services.Implementations.User
 
                 return _mapper.Map<OrderResponseDto>(result);
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                _logger.LogError(ex, "Error when creating an order: {@odrerId}", orderId);
-                throw;
+                _logger.LogError(ex, "Error when delete an order: {@odrerId}", orderId);
+
+                throw new CustomRepositoryException("Error occurred while deleting an order: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                _logger.LogError(ex, "Error when mapping the order: {@Order}", orderId);
+
+                throw new CustomRepositoryException("Error occurred during order mapping", "MAPPING_ERROR_CODE", ex.Message);
             }
         }
 
-        public async Task<OrderResponseDto> EditOrderAsync(int orderId, OrderEditDto orderModel)
+        public async Task<OrderResponseDto> EditOrderAsync(OrderEditDto orderModel)
         {
             try
             {
                 _logger.LogInformation("Attempt to edit an order: {@OrderEditDto}", orderModel);
 
-                var result = await _unitOfWork.OrderRepository.EditOrderAsync(orderId, orderModel);
+                var result = await _unitOfWork.OrderRepository.EditOrderAsync(orderModel.OrderId, orderModel);
 
                 await _unitOfWork.SaveChangesAsync();
 
-                _logger.LogInformation("Order successfully deleted: {@Order}", result);
+                _logger.LogInformation("Order successfully edit: {@Order}", result);
 
                 return _mapper.Map<OrderResponseDto>(result);
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                _logger.LogError(ex, "Error when creating an order: {@odrerId}", orderId);
-                throw;
+                _logger.LogError(ex, "Error when edit an order: {@OrderEditDto}", orderModel);
+             
+                throw new CustomRepositoryException("Error occurred while edit an order: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
+            }
+            catch (AutoMapperMappingException ex) 
+            {
+                _logger.LogError(ex, "Error when mapping the order: {@OrderEditDto}", orderModel);
+
+                throw new CustomRepositoryException("Error occurred during order mapping", "MAPPING_ERROR_CODE", ex.Message);
             }
         }
     }

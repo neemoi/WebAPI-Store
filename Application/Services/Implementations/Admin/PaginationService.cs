@@ -1,4 +1,5 @@
-﻿using Application.DtoModels.Models.Pagination;
+﻿using Application.CustomException;
+using Application.DtoModels.Models.Pagination;
 using Application.DtoModels.Response.Admin;
 using Application.DTOModels.Models.Admin.Pagination;
 using Application.DTOModels.Response.Admin;
@@ -30,9 +31,9 @@ namespace Application.Services.Implementations
 
                 return userResponseDto;
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error", ex);
+                throw new CustomRepositoryException("Error occurred while loading data: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
@@ -46,9 +47,9 @@ namespace Application.Services.Implementations
 
                 return roleResponseDto;
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error", ex);
+                throw new CustomRepositoryException("Error occurred while loading data: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
@@ -63,9 +64,9 @@ namespace Application.Services.Implementations
 
                 return productResponseDto;
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error", ex);
+                throw new CustomRepositoryException("Error occurred while loading data: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
@@ -80,9 +81,9 @@ namespace Application.Services.Implementations
 
                 return paymentsResponseDto;
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error", ex);
+                throw new CustomRepositoryException("Error occurred while loading data: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
@@ -96,9 +97,9 @@ namespace Application.Services.Implementations
 
                 return categoryResponseDto;
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error", ex);
+                throw new CustomRepositoryException("Error occurred while loading data: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
@@ -112,9 +113,9 @@ namespace Application.Services.Implementations
 
                 return deliveryResponseDto;
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error", ex);
+                throw new CustomRepositoryException("Error occurred while loading data: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
@@ -128,9 +129,9 @@ namespace Application.Services.Implementations
 
                 return productResponseDto;
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error", ex);
+                throw new CustomRepositoryException("Error occurred while loading data: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
@@ -144,9 +145,9 @@ namespace Application.Services.Implementations
 
                 return orderResponseDto;
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error", ex);
+                throw new CustomRepositoryException("Error occurred while loading data: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
 
@@ -160,9 +161,9 @@ namespace Application.Services.Implementations
 
                 return orderResponseDto;
             }
-            catch (Exception ex)
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Error", ex);
+                throw new CustomRepositoryException("Error occurred while loading data: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
         }
     }

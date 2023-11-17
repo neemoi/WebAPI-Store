@@ -2,11 +2,12 @@
 using Application.DTOModels.Models.Admin.Payment;
 using Application.Services.Interfaces.IServices;
 using Application.Services.Interfaces.IServices.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPIKurs.Controllers.Admin
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class PaymentController : Controller
     {
         private readonly IPaymentService _paymentService;
@@ -17,7 +18,6 @@ namespace WebAPIKurs.Controllers.Admin
             _paymentService = paymentService;
             _paginationService = paginationService;
         }
-
 
         [HttpGet("Admin/Payment/")]
         public async Task<IActionResult> GetPaymentsWithPaginationAsync([FromQuery] PaymentQueryParametersDto productModel)

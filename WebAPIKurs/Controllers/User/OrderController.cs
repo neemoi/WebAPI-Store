@@ -1,16 +1,13 @@
 ﻿using Application.DTOModels.Models.Admin.Pagination;
 using Application.DTOModels.Models.User.Order;
-using Application.DTOModels.Response.User;
 using Application.Services.Interfaces.IServices;
 using Application.Services.Interfaces.IServices.User;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace WebAPIKurs.Controllers.User
 {
-    //[Authorize]
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IPaginationService _paginationService;
@@ -43,7 +40,7 @@ namespace WebAPIKurs.Controllers.User
         [HttpPut("User/Order/")]
         public async Task<IActionResult> EditOrderAsync(OrderEditDto orderModel)
         {
-            return Ok(await _orderService.EditOrderAsync(orderModel.OrderId, orderModel));
+            return Ok(await _orderService.EditOrderAsync(orderModel));
         }
 
         [HttpDelete("User/Order/")]

@@ -1,12 +1,13 @@
 ﻿using Application.Services.Interfaces.IServices.Admin;
 using Application.Services.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
-using Application.DTOModels.Models.Admin.Category;
 using Application.DTOModels.Models.Admin.Pagination;
 using Application.DTOModels.Models.Admin.Delivery;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPIKurs.Controllers.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class DeliveryController : Controller
     {
         private readonly IDeliveryService _deliveryService;
@@ -33,7 +34,7 @@ namespace WebAPIKurs.Controllers.Admin
         [HttpPut("Admin/Delivery/")]
         public async Task<IActionResult> EditDeliveryAsync([FromQuery] DeliveryEditDto deliveryModel)
         {
-            return Ok(await _deliveryService.EditDeliveryAsync(deliveryModel.Id, deliveryModel));
+            return Ok(await _deliveryService.EditDeliveryAsync(deliveryModel));
         }
 
         [HttpDelete("Admin/Delivery/")]

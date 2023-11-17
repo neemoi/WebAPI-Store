@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPIKurs.Controllers.User
 {
-    //[Authorize]
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly IProfileService _profileService;
@@ -21,7 +21,7 @@ namespace WebAPIKurs.Controllers.User
             return Ok(await _profileService.GetAllInfoAsync());
         }
 
-        [HttpPost("User/Profile")]
+        [HttpPut("User/Profile")]
         public async Task<IActionResult> EditProfileAsync(EditProfileDto editModel)
         {
             return Ok(await _profileService.EditProfileAsync(editModel));

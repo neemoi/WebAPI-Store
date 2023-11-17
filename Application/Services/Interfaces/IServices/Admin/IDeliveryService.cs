@@ -7,7 +7,7 @@ namespace Application.Services.Interfaces.IServices.Admin
     {
         Task<DeliveryResponseDto> CreateDeliveryAsync(DeliveryCreateDto deliveryModel);
 
-        Task<DeliveryResponseDto> EditDeliveryAsync(int deliveryId, DeliveryEditDto deliveryModel);
+        Task<DeliveryResponseDto> EditDeliveryAsync(DeliveryEditDto deliveryModel);
 
         Task<DeliveryResponseDto> DeleteDeliveryAsync(int deliveryId);
     }

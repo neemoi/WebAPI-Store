@@ -3,9 +3,11 @@ using Application.Services.Interfaces.IServices.Admin;
 using Application.Services.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Application.DTOModels.Models.Admin.Category;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPIKurs.Controllers.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -32,7 +34,7 @@ namespace WebAPIKurs.Controllers.Admin
         [HttpPut("Admin/Category/")]
         public async Task<IActionResult> UpdateCategoryAsync([FromQuery] CategoryEditDto productModel)
         {
-            return Ok(await _categoryService.UpdateCategoryAsync(productModel.Id, productModel));
+            return Ok(await _categoryService.EditCategoryAsync(productModel));
         }
 
         [HttpDelete("Admin/Category/")]

@@ -1,4 +1,5 @@
-﻿using Application.DTOModels.Models.User.Order;
+﻿using Application.DTOModels.Models.Admin;
+using Application.DTOModels.Models.User.Order;
 using Application.DTOModels.Response.User;
 using AutoMapper;
 using WebAPIKurs;
@@ -12,6 +13,12 @@ public class MappingOrder : Profile
 
         CreateMap<Order, OrderEditDto>();
         CreateMap<OrderEditDto, Order>();
+
+        CreateMap<CustomUser, OrderEditDto>();
+        CreateMap<OrderEditDto, CustomUser>();
+
+        CreateMap<Order, UserOrderEditDto>();
+        CreateMap<UserOrderEditDto, Order>();
 
         CreateMap<Orderitem, OrderResponseDto>();
 

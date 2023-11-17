@@ -2,10 +2,7 @@
 using Application.DTOModels.Models.Admin.Roles;
 using Application.Services.Interfaces.IServices.Admin;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using WebAPIKurs;
 
 namespace Application.Services.Implementations.Admin
