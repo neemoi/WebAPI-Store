@@ -2,11 +2,9 @@
 using Application.DTOModels.Models.User;
 using Application.DTOModels.Response.User;
 using Application.Services.Interfaces.IServices.User;
+using Application.Services.UnitOfWork;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
 using WebAPIKurs;
 
 namespace Application.Services.Implementations.User
@@ -14,66 +12,29 @@ namespace Application.Services.Implementations.User
     public class ProfileService : IProfileService
     {
         private readonly IMapper _mapper;
-        private readonly UserManager<CustomUser> _userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<CustomUser> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProfileService(IMapper mapper, UserManager<CustomUser> userManager, IHttpContextAccessor httpContextAccessor, ILogger<CustomUser> logger)
+        public ProfileService(IMapper mapper, ILogger<CustomUser> logger, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<EditProfileResposneDto> EditProfileAsync(EditProfileDto model)
+        public async Task<EditProfileResposneDto> EditProfileAsync(EditProfileDto editModel)
         {
             try
             {
-                _logger.LogInformation("Attempt to edit profile an user: {@EditProfileDto}", model);
+                _logger.LogInformation("Attempt to edit profile an user: {@EditProfileDto}", editModel);
 
-                var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var result = await _unitOfWork.ProfileRepository.EditProfileAsync(editModel);
+                
+                await _unitOfWork.SaveChangesAsync();
 
-                if (userId != null)
-                {
-                    var user = await _userManager.FindByIdAsync(userId);
+                _logger.LogInformation("User profile successfully edit: {@CustomUser}", result);
 
-                    if (user != null)
-                    {
-                        if (!string.IsNullOrEmpty(model.NewPassword))
-                        {
-                            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
-
-                            if (!changePasswordResult.Succeeded)
-                            {
-                                throw new CustomRepositoryException("Error changing password", "DATABASE_ERROR");
-                            }
-                        }
-
-                        _mapper.Map(model, user);
-
-                        var updateResult = await _userManager.UpdateAsync(user);
-
-                        if (updateResult.Succeeded)
-                        {
-                            _logger.LogInformation("User prodile successfully edit: {@CustomUser}", updateResult);
-
-                            return _mapper.Map<EditProfileResposneDto>(user);
-                        }
-                        else
-                        {
-                            throw new CustomRepositoryException("Failed to update user profile", "DATABASE_ERROR");
-                        }
-                    }
-                    else
-                    {
-                        throw new CustomRepositoryException("User not found", "NOT_FOUND_ERROR_CODE");
-                    }
-                }
-                else
-                {
-                    throw new CustomRepositoryException($"User ID {userId} not found", "NOT_FOUND_ERROR_CODE");
-                }
+                return _mapper.Map<EditProfileResposneDto>(result); 
             }
             catch (CustomRepositoryException ex)
             {
@@ -95,27 +56,11 @@ namespace Application.Services.Implementations.User
             {
                 _logger.LogInformation("Attempt to get info an user: {@CustomUser}");
 
-                var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var result = await _unitOfWork.ProfileRepository.GetAllInfoAsync();
 
-                if (userId != null)
-                {
-                    var user = await _userManager.FindByIdAsync(userId);
+                _logger.LogInformation("Get info successfully: {@CustomUser}", result);
 
-                    if (user != null)
-                    {
-                        _logger.LogInformation("Get info successfully: {@CustomUser}");
-
-                        return _mapper.Map<EditProfileResposneDto>(user);
-                    }
-                    else
-                    {
-                        throw new CustomRepositoryException($"User ID {userId} not found", "NOT_FOUND_ERROR_CODE");
-                    }
-                }
-                else
-                {
-                    throw new CustomRepositoryException("User not found", "NOT_FOUND_ERROR_CODE");
-                }
+                return _mapper.Map<EditProfileResposneDto>(result);
             }
             catch (CustomRepositoryException ex)
             {

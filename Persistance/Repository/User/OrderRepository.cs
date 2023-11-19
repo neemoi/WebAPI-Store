@@ -1,12 +1,11 @@
 ﻿using Application.CustomException;
 using Application.DTOModels.Models.User.Order;
 using Application.DTOModels.Response.User;
-using Application.Services.Interfaces.IRepository.Admin;
+using Application.Services.Interfaces.IRepository.User;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Security.Claims;
 using WebAPIKurs;
 
@@ -122,7 +121,7 @@ namespace Persistance.Repository.User
             }
         }
 
-        public async Task<Order> EditOrderAsync(int orderId, OrderEditDto orderModel)
+        public async Task<Order> EditOrderAsync(OrderEditDto orderModel)
         {
             try
             {
@@ -131,7 +130,7 @@ namespace Persistance.Repository.User
 
                 var order = await _websellContext.Orders
                     .Include(o => o.Orderitems)
-                    .FirstOrDefaultAsync(p => p.Id == orderId && p.UserId == userId) ?? throw new CustomRepositoryException("Order not found", "NOT_FOUND_ERROR_CODE");
+                    .FirstOrDefaultAsync(p => p.Id.ToString() == userId && p.UserId == userId) ?? throw new CustomRepositoryException("Order not found", "NOT_FOUND_ERROR_CODE");
 
                 _mapper.Map(orderModel, order);
 

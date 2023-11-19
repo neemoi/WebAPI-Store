@@ -1,42 +1,37 @@
 ﻿using Application.CustomException;
 using Application.DtoModels.Models.Admin;
 using Application.DtoModels.Response.Admin;
-using Application.Services.Interfaces.IServices.Admin;
-using Application.Services.UnitOfWork;
+using Application.Services.Interfaces.IRepository.Admin;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using WebAPIKurs;
 
-namespace Application.Services.Implementations.Admin
+namespace Persistance.Repository.Admin
 {
-    public class UserService : IUserService
+    public class UserRepository : IUserRepository
     {
-        private readonly UserManager<CustomUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<CustomUser> _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger<IdentityRole> _logger;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(UserManager<CustomUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, ILogger<IdentityRole> logger, IUnitOfWork unitOfWork)
+        public UserRepository(RoleManager<IdentityRole> roleManager, UserManager<CustomUser> userManager, IMapper mapper, ILogger<IdentityRole> logger)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _mapper = mapper;
-            _logger = logger;
-            _unitOfWork = unitOfWork;
+            _logger= logger;
+            _roleManager= roleManager;
+            _userManager= userManager;
+            _mapper= mapper;
         }
-
-        public async Task<UserResponseDto> DeleteUserAsync(Guid userId)
+        
+        public async Task<CustomUser> DeleteUserAsync(string userId)
         {
             try
             {
-                _logger.LogInformation("Attempt to delete an user: {@CustomUser}", userId);
-
                 var adminId = "e532e613-6ebb-4bff-abee-4eda9e69f13d";
 
-                var user = await _userManager.FindByIdAsync(userId.ToString()) 
-                    ?? throw new CustomRepositoryException($"User ID ({userId}) not found", "INVALID_INPUT_DATA"); 
+                var user = await _userManager.FindByIdAsync(userId.ToString())
+                    ?? throw new CustomRepositoryException($"User ID ({userId}) not found", "NOT_FOUND_ERROR_CODE");
 
                 if (userId.ToString() == adminId)
                 {
@@ -51,7 +46,7 @@ namespace Application.Services.Implementations.Admin
 
                     if (role == null)
                     {
-                        throw new CustomRepositoryException($"Role user not found", "INVALID_INPUT_DATA");
+                        throw new CustomRepositoryException($"Role not found", "NOT_FOUND_ERROR_CODE");
                     }
 
                     await _userManager.RemoveFromRoleAsync(user, role.Name);
@@ -66,26 +61,18 @@ namespace Application.Services.Implementations.Admin
                     var userResponseDto = _mapper.Map<UserResponseDto>(user);
                     userResponseDto.Role = userRole;
 
-                    _logger.LogInformation("User successfully delete: {@CustomUser}", result);
-
-                    return userResponseDto;
+                    return user;
                 }
                 else
                 {
-                    throw new CustomRepositoryException($"Role user not found", "INVALID_INPUT_DATA");
+                    throw new Exception("Error adding user to role: " + string.Join(", ", result.Errors));
                 }
             }
             catch (CustomRepositoryException ex)
             {
-                _logger.LogError(ex, "Error when deleting an user: {@CustomUser}", userId);
+                _logger.LogError(ex, "Error when delet an user: {@CustomUser}", userId);
 
                 throw new CustomRepositoryException("Error occurred while delete an user: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
-            }
-            catch (AutoMapperMappingException ex)
-            {
-                _logger.LogError(ex, "Error when mapping the user: {@CustomUser}", userId);
-
-                throw new CustomRepositoryException("Error occurred during user mapping", "MAPPING_ERROR_CODE", ex.Message);
             }
         }
 

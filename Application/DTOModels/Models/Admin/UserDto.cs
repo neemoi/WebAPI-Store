@@ -13,7 +13,7 @@ namespace Application.DtoModels.Models.Admin
 
         [Required]
         public string? UserName { get; set; }
-        
+
         [Required]
         public string? PhoneNumber { get; set; }
 

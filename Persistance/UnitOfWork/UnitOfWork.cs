@@ -1,5 +1,5 @@
 ﻿using Application.Services.Interfaces.IRepository.Admin;
-using Application.Services.Interfaces.IServices;
+using Application.Services.Interfaces.IRepository.User;
 using Application.Services.UnitOfWork;
 using WebAPIKurs;
 
@@ -21,9 +21,16 @@ namespace Persistance.UnitOfWork
 
         public IUserOrderRepository UserOrderRepository { get; }
 
+        public IProfileRepository ProfileRepository { get; }
+
+        public IRoleRepostitory RoleRepostitory { get; }
+
+        public IUserRepository UserRepository { get; }
+
+
         private readonly WebsellContext _websellContext;
 
-        public UnitOfWork(IPaginationRepository paginationRepository, IProductRepository productRepository, IPaymentsRepository paymentsRepository, ICategoryRepository categoryRepository, IDeliveryRepository deliveryRepository, IOrderRepository orderRepository, IUserOrderRepository userOrderRepository, WebsellContext websellContext)
+        public UnitOfWork(IPaginationRepository paginationRepository, IProductRepository productRepository, IPaymentsRepository paymentsRepository, ICategoryRepository categoryRepository, IDeliveryRepository deliveryRepository, IOrderRepository orderRepository, IUserOrderRepository userOrderRepository, IProfileRepository profileRepository, IRoleRepostitory roleRepostitory, IUserRepository userRepository, WebsellContext websellContext)
         {
             PaginationRepository = paginationRepository;
             ProductRepository = productRepository;
@@ -32,6 +39,9 @@ namespace Persistance.UnitOfWork
             DeliveryRepository = deliveryRepository;
             OrderRepository = orderRepository;
             UserOrderRepository = userOrderRepository;
+            ProfileRepository = profileRepository;
+            RoleRepostitory = roleRepostitory;
+            UserRepository = userRepository;
             _websellContext = websellContext;
         }
 

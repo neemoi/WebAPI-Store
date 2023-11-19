@@ -1,125 +1,135 @@
-﻿using Application.DtoModels.Response.Admin;
+﻿using Application.CustomException;
+using Application.DtoModels.Response.Admin;
 using Application.DTOModels.Models.Admin.Roles;
 using Application.Services.Interfaces.IServices.Admin;
+using Application.Services.UnitOfWork;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using WebAPIKurs;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services.Implementations.Admin
 {
     public class RoleService : IRoleService
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<CustomUser> _userManager;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<IdentityRole> _logger;
 
-        public RoleService(RoleManager<IdentityRole> roleManager, IMapper mapper, UserManager<CustomUser> userManager)
+        public RoleService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<IdentityRole> logger)
         {
-            _roleManager = roleManager;
-            _userManager = userManager;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<RoleResponseDto> CreateRoleAsync(string roleName)
         {
-            var role = new IdentityRole(roleName);
-
-            IdentityResult result = await _roleManager.CreateAsync(role);
-
-            if (result.Succeeded)
+            try
             {
-                return _mapper.Map<RoleResponseDto>(role);
+                _logger.LogInformation("Attempt to create an role: {@IdentityRole}", roleName);
+
+                var role = _mapper.Map<IdentityRole>(roleName);
+
+                var result = await _unitOfWork.RoleRepostitory.CreateRoleAsync(roleName);
+
+                _logger.LogInformation("Role successfully created: {@IdentityRole}", result);
+
+                return _mapper.Map<RoleResponseDto>(result);
             }
-            else
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception($"Internal Server Error" + string.Join(", ", result.Errors));
+                _logger.LogError(ex, "Error when creating an role: {@IdentityRole}", roleName);
+
+                throw new CustomRepositoryException("Error occurred while create an role: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                _logger.LogError(ex, "Error when mapping the role: {@IdentityRole}", roleName);
+
+                throw new CustomRepositoryException("Error occurred during role mapping", "MAPPING_ERROR_CODE", ex.Message);
             }
         }
 
         public async Task<RoleResponseDto> DeleteRoleAsync(Guid roleId)
         {
-            IdentityRole? role = await _roleManager.FindByIdAsync(roleId.ToString());
-
-            IdentityResult result = await _roleManager.DeleteAsync(role);
-
-            if (role == null)
+            try
             {
-                throw new Exception($"Role not found. Role == null");
+                _logger.LogInformation("Attempt to delete an role: {@IdentityRole}", roleId);
+
+                var result = await _unitOfWork.RoleRepostitory.DeleteRoleAsync(roleId);
+
+                _logger.LogInformation("Role successfully deleted: {@IdentityRole}", result);
+
+                return _mapper.Map<RoleResponseDto>(result);
             }
+            catch (CustomRepositoryException ex)
+            {
+                _logger.LogError(ex, "Error when deletet an role: {@IdentityRole}", roleId);
 
-            if (result.Succeeded)
-            {
-                return _mapper.Map<RoleResponseDto>(role);
+                throw new CustomRepositoryException("Error occurred while delete an role: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
-            else
+            catch (AutoMapperMappingException ex)
             {
-                throw new Exception($"Internal Server Error" + string.Join(", ", result.Errors));
+                _logger.LogError(ex, "Error when mapping the role: {@IdentityRole}", roleId);
+
+                throw new CustomRepositoryException("Error occurred during role mapping", "MAPPING_ERROR_CODE", ex.Message);
             }
         }
 
         public async Task<RoleResponseDto> EditRoleByIdAsync(EditRoleByIdDto editModel)
         {
-            var role = await _roleManager.FindByIdAsync(editModel.Id);
-
-            if (role == null)
+            try
             {
-                throw new Exception("Role not found. Role == null");
+                _logger.LogInformation("Attempt to edit an role: {@EditRoleByIdDto}", editModel);
+
+                var result = await _unitOfWork.RoleRepostitory.EditRoleByIdAsync(editModel);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                _logger.LogInformation("Role successfully edit: {@IdentityRole}", result);
+
+                return _mapper.Map<RoleResponseDto>(result);
             }
-
-            role.Name = editModel.Name;
-
-            var result = await _roleManager.UpdateAsync(role);
-
-            if (result.Succeeded)
+            catch (CustomRepositoryException ex)
             {
-                var updatedRole = await _roleManager.FindByIdAsync(editModel.Id);
+                _logger.LogError(ex, "Error when edit an role: {@EditRoleByIdDto}", editModel);
 
-                var roleResponseDto = _mapper.Map<RoleResponseDto>(updatedRole);
-
-                return roleResponseDto;
+                throw new CustomRepositoryException("Error occurred while edit an role: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
-            else
+            catch (AutoMapperMappingException ex)
             {
-                throw new Exception($"Internal Server Error" + string.Join(", ", result.Errors));
+                _logger.LogError(ex, "Error when mapping the role: {@EditRoleByIdDto}", editModel);
+
+                throw new CustomRepositoryException("Error occurred during role mapping", "MAPPING_ERROR_CODE", ex.Message);
             }
         }
 
         public async Task<UserResponseDto> EditUserRoleAsync(EditUserRoleDto modelUser)
         {
-            var user = await _userManager.FindByIdAsync(modelUser.UserId);
-
-            var role = await _roleManager.FindByIdAsync(modelUser.RoleId);
-
-            if (user == null)
+            try
             {
-                throw new Exception("User not found");
-            }
+                _logger.LogInformation("Attempt to edit an user role: {@EditUserRoleDto}", modelUser);
 
-            if (role == null)
+                var result = await _unitOfWork.RoleRepostitory.EditUserRoleAsync(modelUser);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                _logger.LogInformation("User role successfully edit: {@IdentityRole}", result);
+
+                return _mapper.Map<UserResponseDto>(result);
+            }
+            catch (CustomRepositoryException ex)
             {
-                throw new Exception("Role not found");
+                _logger.LogError(ex, "Error when edit an user role: {@EditUserRoleDto}", modelUser);
+
+                throw new CustomRepositoryException("Error occurred while edit an user role: " + ex.Message, ex.ErrorCode, ex.AdditionalInfo);
             }
-
-            var currentRoles = await _userManager.GetRolesAsync(user);
-
-            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
-
-            if (!removeResult.Succeeded)
+            catch (AutoMapperMappingException ex)
             {
-                throw new Exception("Error removing user from roles: " + string.Join(", ", removeResult.Errors));
+                _logger.LogError(ex, "Error when mapping the user role: {@EditUserRoleDto}", modelUser);
+
+                throw new CustomRepositoryException("Error occurred during user role mapping", "MAPPING_ERROR_CODE", ex.Message);
             }
-
-            var addToRoleResult = await _userManager.AddToRoleAsync(user, role.Name);
-
-            if (!addToRoleResult.Succeeded)
-            {
-                throw new Exception("Error adding user to role: " + string.Join(", ", addToRoleResult.Errors));
-            }
-
-            var userWithRoleDto = _mapper.Map<UserResponseDto>(user);
-                userWithRoleDto.Role = role.Name;
-
-            return userWithRoleDto;
         }
     }
 }

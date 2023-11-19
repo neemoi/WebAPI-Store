@@ -11,6 +11,5 @@
         public string? Timestamp { get; set; }
 
         public string? StackTrace { get; set; }
-
     }
 }

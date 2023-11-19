@@ -1,4 +1,5 @@
 ﻿using Application.Services.Interfaces.IRepository.Admin;
+using Application.Services.Interfaces.IRepository.User;
 
 namespace Application.Services.UnitOfWork
 {
@@ -17,6 +18,13 @@ namespace Application.Services.UnitOfWork
         IOrderRepository OrderRepository { get; }
 
         IUserOrderRepository UserOrderRepository { get; }
+
+        IProfileRepository ProfileRepository { get; }
+
+        IRoleRepostitory RoleRepostitory { get; }
+
+        IUserRepository UserRepository { get; }
+        
         Task SaveChangesAsync();
     }
 }

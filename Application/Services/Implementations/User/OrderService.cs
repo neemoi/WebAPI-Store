@@ -80,7 +80,7 @@ namespace Application.Services.Implementations.User
             {
                 _logger.LogInformation("Attempt to edit an order: {@OrderEditDto}", orderModel);
 
-                var result = await _unitOfWork.OrderRepository.EditOrderAsync(orderModel.OrderId, orderModel);
+                var result = await _unitOfWork.OrderRepository.EditOrderAsync(orderModel);
 
                 await _unitOfWork.SaveChangesAsync();
 
