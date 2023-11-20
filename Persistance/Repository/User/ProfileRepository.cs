@@ -1,6 +1,5 @@
 ﻿using Application.CustomException;
 using Application.DTOModels.Models.User;
-using Application.DTOModels.Response.User;
 using Application.Services.Interfaces.IRepository.User;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;

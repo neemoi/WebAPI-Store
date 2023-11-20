@@ -7,6 +7,6 @@ namespace Application.Services.Interfaces.IServices.Admin
     {
         Task<UserResponseDto> EditUserAsync(UserDto model);
 
-        Task<UserResponseDto> DeleteUserAsync(Guid userId);
+        Task<UserResponseDto> DeleteUserAsync(string userId);
     }
 }

@@ -10,6 +10,9 @@ namespace Application.MappingProfile.Admin
         public MappingUsers()
         {
             CreateMap<UserDto, CustomUser>();
+
+            CreateMap<UserResponseDto, CustomUser>()
+              .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<CustomUser, UserResponseDto>();
         }
     }

@@ -6,7 +6,7 @@ namespace Application.Services.Interfaces.IRepository.Admin
 {
     public interface IUserRepository
     {
-        Task<UserResponseDto> EditUserAsync(UserDto model);
+        Task<CustomUser> EditUserAsync(UserDto model);
 
         Task<CustomUser> DeleteUserAsync(string userId);
     }

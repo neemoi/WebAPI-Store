@@ -33,37 +33,49 @@ namespace Persistance.Repository.User
                 var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value 
                     ?? throw new CustomRepositoryException("User not found", "NOT_FOUND_ERROR_CODE");
 
-                var order = new Order
+                var userInfo = await _websellContext.Users.FirstOrDefaultAsync(p => p.Id == userId)
+                    ?? throw new CustomRepositoryException("User not found", "NOT_FOUND_ERROR_CODE");
+
+                if (userInfo.State == null 
+                    || userInfo.Address == null 
+                    || userInfo.City == null)
                 {
-                    UserId = userId,
-                    PaymentId = orderModel.PaymentId,
-                    DeliverId = orderModel.DeliverId
-
-                } ?? throw new CustomRepositoryException("Order not found", "NOT_FOUND_ERROR_CODE");
-
-                await _websellContext.AddAsync(order);
-
-                foreach (var productId in orderModel.ListProductId)
-                {
-                    var product = await _websellContext.Products.FindAsync(productId) ?? throw new CustomRepositoryException("Product not found", "NOT_FOUND_ERROR_CODE");
-
-                    var orderItem = new Orderitem
-                    {
-                        Order = order,
-                        ProductId = productId,
-                        Quantity = orderModel.Quantity
-                    };
-
-                    _websellContext.Orderitems.Add(orderItem);
+                    throw new CustomRepositoryException("Сheck the fields: State | Adress | City they need to be filled in", "NOT_FOUND_ERROR_CODE");
                 }
+                else
+                {
+                    var order = new Order
+                    {
+                        UserId = userId,
+                        PaymentId = orderModel.PaymentId,
+                        DeliverId = orderModel.DeliverId
 
-                order.TotalPrice = await CalculateTotalPriceAsync(orderModel.PaymentId, orderModel.DeliverId, orderModel.ListProductId, orderModel.Quantity);
+                    } ?? throw new CustomRepositoryException("Order not found", "NOT_FOUND_ERROR_CODE");
 
-                await _websellContext.SaveChangesAsync();
+                    await _websellContext.AddAsync(order);
 
-                await LoadOrderDetailsAsync(order);
+                    foreach (var productId in orderModel.ListProductId)
+                    {
+                        var product = await _websellContext.Products.FindAsync(productId) ?? throw new CustomRepositoryException("Product not found", "NOT_FOUND_ERROR_CODE");
 
-                return order;
+                        var orderItem = new Orderitem
+                        {
+                            Order = order,
+                            ProductId = productId,
+                            Quantity = orderModel.Quantity
+                        };
+
+                        _websellContext.Orderitems.Add(orderItem);
+                    }
+
+                    order.TotalPrice = await CalculateTotalPriceAsync(orderModel.PaymentId, orderModel.DeliverId, orderModel.ListProductId, orderModel.Quantity);
+
+                    await _websellContext.SaveChangesAsync();
+
+                    await LoadOrderDetailsAsync(order);
+
+                    return order;
+                }
             }
             catch (CustomRepositoryException ex)
             {
@@ -126,11 +138,12 @@ namespace Persistance.Repository.User
             try
             {
                 var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value 
-                    ?? throw new CustomRepositoryException("User not found", "NOT_FOUND_ERROR_CODE");
+                      ?? throw new CustomRepositoryException("User not found", "NOT_FOUND_ERROR_CODE");
 
                 var order = await _websellContext.Orders
-                    .Include(o => o.Orderitems)
-                    .FirstOrDefaultAsync(p => p.Id.ToString() == userId && p.UserId == userId) ?? throw new CustomRepositoryException("Order not found", "NOT_FOUND_ERROR_CODE");
+                      .Include(o => o.Orderitems)
+                      .FirstOrDefaultAsync(p => p.Id == orderModel.OrderId && p.UserId == userId)
+                      ?? throw new CustomRepositoryException("Order not found", "NOT_FOUND_ERROR_CODE");
 
                 _mapper.Map(orderModel, order);
 

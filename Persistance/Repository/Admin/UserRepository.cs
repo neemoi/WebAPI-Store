@@ -76,7 +76,7 @@ namespace Persistance.Repository.Admin
             }
         }
 
-        public async Task<UserResponseDto> EditUserAsync(UserDto userModel)
+        public async Task<CustomUser> EditUserAsync(UserDto userModel)
         {
             try
             {
@@ -85,9 +85,9 @@ namespace Persistance.Repository.Admin
 
                 _mapper.Map(userModel, user);
 
-                IdentityResult result = await _userManager.UpdateAsync(user);
+                var updateResult = await _userManager.UpdateAsync(user);
 
-                if (result.Succeeded && user != null)
+                if (updateResult.Succeeded)
                 {
                     var roles = await _userManager.GetRolesAsync(user);
 
@@ -96,11 +96,11 @@ namespace Persistance.Repository.Admin
                     var userResponseDto = _mapper.Map<UserResponseDto>(user);
                     userResponseDto.Role = userRole;
 
-                    return userResponseDto;
+                    return user;
                 }
                 else
                 {
-                    throw new CustomRepositoryException($"User editing error", "DATABASE_ERROR");
+                    throw new Exception($"Error update data: " + string.Join(", ", updateResult.Errors));
                 }
             }
             catch (CustomRepositoryException ex)

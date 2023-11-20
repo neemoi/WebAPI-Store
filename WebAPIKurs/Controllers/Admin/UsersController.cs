@@ -58,7 +58,7 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpDelete("Admin/User/")]
-        public async Task<IActionResult> DeleteUserAsync(Guid id)
+        public async Task<IActionResult> DeleteUserAsync(string id)
         {
             return Ok(await _userService.DeleteUserAsync(id));
         }
