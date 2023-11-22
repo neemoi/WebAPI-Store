@@ -65,7 +65,7 @@ public partial class WebsellContext : IdentityDbContext<CustomUser>
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("orders_ibfk_1");
 
             entity.HasOne(d => d.Deliveries).WithMany(p => p.Orders)
@@ -91,12 +91,12 @@ public partial class WebsellContext : IdentityDbContext<CustomUser>
 
             entity.HasOne(d => d.Order).WithMany(p => p.Orderitems)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("orderitems_ibfk_1");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Orderitems)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("orderitems_ibfk_2");
         });
 

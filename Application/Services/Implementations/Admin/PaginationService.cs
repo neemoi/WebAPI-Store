@@ -151,7 +151,7 @@ namespace Application.Services.Implementations
             }
         }
 
-        public async Task<IEnumerable<UserOrderResponseDto>> GeUsertOrderWithPaginationAsync(string userId, GeUsertOrderQueryParametersDto parametersModel)
+        public async Task<IEnumerable<UserOrderResponseDto>> GeUserOrderWithPaginationAsync(string userId, GeUsertOrderQueryParametersDto parametersModel)
         {
             try
             {

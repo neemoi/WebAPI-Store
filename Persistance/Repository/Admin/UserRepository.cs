@@ -1,9 +1,12 @@
 ﻿using Application.CustomException;
 using Application.DtoModels.Models.Admin;
 using Application.DtoModels.Response.Admin;
+using Application.Services.Implementations.User;
 using Application.Services.Interfaces.IRepository.Admin;
+using Application.Services.Interfaces.IServices.User;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebAPIKurs;
 
@@ -15,52 +18,49 @@ namespace Persistance.Repository.Admin
         private readonly UserManager<CustomUser> _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger<IdentityRole> _logger;
+        private readonly WebsellContext _websellContext;
 
-        public UserRepository(RoleManager<IdentityRole> roleManager, UserManager<CustomUser> userManager, IMapper mapper, ILogger<IdentityRole> logger)
+        public UserRepository(RoleManager<IdentityRole> roleManager, UserManager<CustomUser> userManager, IMapper mapper, ILogger<IdentityRole> logger, WebsellContext websellContext)
         {
-            _logger= logger;
-            _roleManager= roleManager;
-            _userManager= userManager;
-            _mapper= mapper;
+            _roleManager = roleManager;
+            _userManager = userManager;
+            _mapper = mapper;
+            _logger = logger;
+            _websellContext = websellContext;
         }
-        
+
         public async Task<CustomUser> DeleteUserAsync(string userId)
         {
             try
             {
                 var adminId = "e532e613-6ebb-4bff-abee-4eda9e69f13d";
 
-                var user = await _userManager.FindByIdAsync(userId.ToString())
-                    ?? throw new CustomRepositoryException($"User ID ({userId}) not found", "NOT_FOUND_ERROR_CODE");
-
                 if (userId.ToString() == adminId)
                 {
                     throw new CustomRepositoryException("You are trying to remove role the main administrator", "INVALID_INPUT_DATA");
                 }
 
-                var roleNames = await _userManager.GetRolesAsync(user);
+                var user = await _userManager.FindByIdAsync(userId)
+                    ?? throw new CustomRepositoryException($"User ID ({userId}) not found", "NOT_FOUND_ERROR_CODE");
 
-                foreach (var roleName in roleNames)
+                var userOrders = _websellContext.Orders.Where(o => o.UserId == userId)
+                    ?? throw new CustomRepositoryException($"User order not found", "NOT_FOUND_ERROR_CODE");
+
+                _websellContext.Orders.RemoveRange(userOrders);
+
+                var userRoles = await _userManager.GetRolesAsync(user);
+                
+                foreach (var role in userRoles)
                 {
-                    var role = await _roleManager.FindByNameAsync(roleName);
-
-                    if (role == null)
-                    {
-                        throw new CustomRepositoryException($"Role not found", "NOT_FOUND_ERROR_CODE");
-                    }
-
-                    await _userManager.RemoveFromRoleAsync(user, role.Name);
+                    await _userManager.RemoveFromRoleAsync(user, role);
                 }
 
                 var result = await _userManager.DeleteAsync(user);
+                
+                await _websellContext.SaveChangesAsync();
 
                 if (result.Succeeded)
                 {
-                    string userRole = roleNames.FirstOrDefault();
-
-                    var userResponseDto = _mapper.Map<UserResponseDto>(user);
-                    userResponseDto.Role = userRole;
-
                     return user;
                 }
                 else

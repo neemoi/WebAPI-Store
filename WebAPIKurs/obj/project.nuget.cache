@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3HDZ8W8i9s6ReFFg0sQHkSF2Eej31npoT67JBU/YQBhTlVJJahP6iDRoQ6x/VgNLYD/86fpeJMr5f1wPFIk+OQ==",
+  "dgSpecHash": "or3BvyZFSzW21r3kYl2ttEqQSBa6fiRESwJbjH8mLC3QGPJ9WuGM7Sf2xjibcpKPJu6WHqlkb8ES/fIiPvdNKA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ta4ve\\Source\\Repos\\WebAPICourseWork\\WebAPIKurs\\WebAPIKurs.csproj",
+  "projectFilePath": "C:\\Users\\ta4ve\\source\\repos\\WebAPICourseWork\\WebAPIKurs\\WebAPIKurs.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ta4ve\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\ta4ve\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
@@ -57,8 +57,9 @@
     "C:\\Users\\ta4ve\\.nuget\\packages\\mysqlconnector\\2.2.5\\mysqlconnector.2.2.5.nupkg.sha512",
     "C:\\Users\\ta4ve\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\7.0.0\\pomelo.entityframeworkcore.mysql.7.0.0.nupkg.sha512",
     "C:\\Users\\ta4ve\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
-    "C:\\Users\\ta4ve\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
-    "C:\\Users\\ta4ve\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "C:\\Users\\ta4ve\\.nuget\\packages\\swashbuckle.aspnetcore.annotations\\6.5.0\\swashbuckle.aspnetcore.annotations.6.5.0.nupkg.sha512",
+    "C:\\Users\\ta4ve\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\ta4ve\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
     "C:\\Users\\ta4ve\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
     "C:\\Users\\ta4ve\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\ta4ve\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",

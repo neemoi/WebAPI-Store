@@ -1,7 +1,6 @@
 ﻿using Application.CustomException;
 using Application.DtoModels.Models.Admin;
 using Application.DtoModels.Response.Admin;
-using Application.DTOModels.Response.User;
 using Application.Services.Interfaces.IServices.Admin;
 using Application.Services.UnitOfWork;
 using AutoMapper;
@@ -32,7 +31,7 @@ namespace Application.Services.Implementations.Admin
             {
                 _logger.LogInformation("Attempt to delete an user: {@CustomUser}", userId);
 
-                var result = _unitOfWork.UserRepository.DeleteUserAsync(userId);
+                var result = await _unitOfWork.UserRepository.DeleteUserAsync(userId);
 
                 _logger.LogInformation("Deliting successfully: {@CustomUser}", result);
 

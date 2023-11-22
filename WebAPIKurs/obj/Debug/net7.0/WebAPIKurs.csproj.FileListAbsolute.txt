@@ -113,3 +113,5 @@ C:\Users\ta4ve\Source\Repos\WebAPICourseWork\WebAPIKurs\obj\Debug\net7.0\refint\
 C:\Users\ta4ve\Source\Repos\WebAPICourseWork\WebAPIKurs\obj\Debug\net7.0\WebAPIKurs.pdb
 C:\Users\ta4ve\Source\Repos\WebAPICourseWork\WebAPIKurs\obj\Debug\net7.0\WebAPIKurs.genruntimeconfig.cache
 C:\Users\ta4ve\Source\Repos\WebAPICourseWork\WebAPIKurs\obj\Debug\net7.0\ref\WebAPIKurs.dll
+C:\Users\ta4ve\source\repos\WebAPICourseWork\WebAPIKurs\bin\Debug\net7.0\APIDocumentation.xml
+C:\Users\ta4ve\source\repos\WebAPICourseWork\WebAPIKurs\bin\Debug\net7.0\Swashbuckle.AspNetCore.Annotations.dll

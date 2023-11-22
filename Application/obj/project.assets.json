@@ -2378,9 +2378,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ta4ve\\Source\\Repos\\WebAPICourseWork\\Application\\Application.csproj",
+      "projectUniqueName": "C:\\Users\\ta4ve\\source\\repos\\WebAPICourseWork\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "C:\\Users\\ta4ve\\Source\\Repos\\WebAPICourseWork\\Application\\Application.csproj",
+      "projectPath": "C:\\Users\\ta4ve\\source\\repos\\WebAPICourseWork\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\ta4ve\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\ta4ve\\Source\\Repos\\WebAPICourseWork\\Application\\obj\\",
       "projectStyle": "PackageReference",
@@ -2403,8 +2403,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\ta4ve\\Source\\Repos\\WebAPICourseWork\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\ta4ve\\Source\\Repos\\WebAPICourseWork\\Domain\\Domain.csproj"
+            "C:\\Users\\ta4ve\\source\\repos\\WebAPICourseWork\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\ta4ve\\source\\repos\\WebAPICourseWork\\Domain\\Domain.csproj"
             }
           }
         }

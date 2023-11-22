@@ -12,7 +12,7 @@ namespace Application.Services.Interfaces.IServices
 
         Task<IEnumerable<UserResponseDto>> GetUserWithPaginationAsync(UserQueryParametersDto parametersModel);
 
-        Task<IEnumerable<UserOrderResponseDto>> GeUsertOrderWithPaginationAsync(string userId, GeUsertOrderQueryParametersDto parametersModel);
+        Task<IEnumerable<UserOrderResponseDto>> GeUserOrderWithPaginationAsync(string userId, GeUsertOrderQueryParametersDto parametersModel);
 
         Task<IEnumerable<ProductResponseDto>> GetProductWithPaginationAsync(ProductQueryParametersDto parametersModel);
 

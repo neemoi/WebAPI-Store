@@ -10,6 +10,7 @@ using Application.Services.Interfaces.IServices.User;
 using Application.Services.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Persistance.Repository.Admin;
 using Persistance.Repository.User;
 using Persistance.UnitOfWork;
@@ -31,11 +32,20 @@ namespace WebAPIKurs
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddLogging(builder =>
             {
                 builder.AddConsole(); 
+            });
+
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "WebAPI",
+                });
+
+                options.IncludeXmlComments("APIDocumentation.xml");
             });
 
             //Registering Scoped Services
@@ -84,7 +94,10 @@ namespace WebAPIKurs
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI V1");
+                });
             }
 
             //GlobalException

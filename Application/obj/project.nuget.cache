@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Q9U8CHAqzbbz8VGVoIH/xm3imib1/tY5wIGXGY1Alx3XUK0UIxu1AKvkhmvs9fhsf6xnOlKbXtNquAKqs6bWtw==",
+  "dgSpecHash": "wkBEvxZu4X6NsyocbJW2ekv7djSNvc8wtFSKNsrf+O/5+rnkweagXUY61bGci+7sLjiK4uu+zcmzmFnOq39WzQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ta4ve\\Source\\Repos\\WebAPICourseWork\\Application\\Application.csproj",
+  "projectFilePath": "C:\\Users\\ta4ve\\source\\repos\\WebAPICourseWork\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ta4ve\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\ta4ve\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
